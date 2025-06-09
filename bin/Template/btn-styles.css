@@ -1,0 +1,68 @@
+
+.edit_here
+{
+	/* TODO:edit here */
+
+}
+
+.btn-disabled
+{
+    cursor: not-allowed !important;
+    color: #aaa !important;
+    background-color: #f6f6f6 !important;
+}
+
+.login-btn-over
+{
+    background-color: #594941 !important;
+}
+
+.setting-btn-over
+{
+    background-image: url('../Assets/setting-over.svg') !important;
+    background-repeat: no-repeat !important;
+    /* background-position: center center !important;
+    object-fit: fill !important; */
+}
+
+.minimize-btn-over
+{
+    background-image: url('../Assets/minus-over.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    object-fit: fill !important;
+}
+
+.close-btn-over
+{
+    background-image: url('../Assets/x-mark-over.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    object-fit: fill !important;
+}
+
+.friend-btn-disabled
+{
+    background-image: url('../Assets/user-solid-select.svg') !important;
+}
+
+.friend-btn-over
+{
+    background-image: url('../Assets/user-solid-over.svg') !important;
+}
+
+.message-btn-over
+{
+	background-image: url('../Assets/comment-solid-over.svg') !important;
+}
+
+.message-btn-disabled
+{
+	background-image: url('../Assets/comment-solid-select.svg') !important;
+}
+
+.list-over
+{
+    background-color: #f5f5f5 !important;
+}
+

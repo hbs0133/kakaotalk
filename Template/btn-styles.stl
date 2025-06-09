@@ -1,0 +1,16 @@
+{
+  "styleName": "btn-styles",
+  "items": {
+    "edit_here": "\r\n.edit_here\r\n{\r\n\t/* TODO:edit here */\r\n\r\n}\r\n",
+    "btn-disabled": ".btn-disabled\r\n{\r\n    cursor: not-allowed;\r\n    color: #aaa;\r\n    background-color: #f6f6f6;\r\n}\r\n\r\n",
+    "login-btn-over": ".login-btn-over\r\n{\r\n    background-color: #594941;\r\n}\r\n\r\n",
+    "setting-btn-over": ".setting-btn-over\r\n{\r\n    background-image: url('Assets/setting-over.svg');\r\n    background-repeat: no-repeat;\r\n    /* background-position: center center;\r\n    object-fit: fill; */\r\n}\r\n\r\n",
+    "minimize-btn-over": ".minimize-btn-over\r\n{\r\n    background-image: url('Assets/minus-over.svg');\r\n    background-repeat: no-repeat;\r\n    background-position: center center;\r\n    object-fit: fill;\r\n}\r\n\r\n",
+    "close-btn-over": ".close-btn-over\r\n{\r\n    background-image: url('Assets/x-mark-over.svg');\r\n    background-repeat: no-repeat;\r\n    background-position: center center;\r\n    object-fit: fill;\r\n}\r\n\r\n",
+    "friend-btn-disabled": ".friend-btn-disabled\r\n{\r\n    background-image: url('Assets/user-solid-select.svg');\r\n}\r\n\r\n",
+    "friend-btn-over": ".friend-btn-over\r\n{\r\n    background-image: url('Assets/user-solid-over.svg');\r\n}\r\n\r\n",
+    "message-btn-over": ".message-btn-over\r\n{\r\n\tbackground-image: url('Assets/comment-solid-over.svg');\r\n}\r\n\r\n",
+    "message-btn-disabled": ".message-btn-disabled\r\n{\r\n\tbackground-image: url('Assets/comment-solid-select.svg');\r\n}\r\n\r\n",
+    "list-over": ".list-over\r\n{\r\n    background-color: #f5f5f5;\r\n}\r\n\r\n"
+  }
+}

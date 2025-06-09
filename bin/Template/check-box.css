@@ -1,0 +1,12 @@
+
+.check-box
+{
+	/* TODO:edit here */
+
+}
+
+.check-box-checked
+{
+    background-image: url('../Assets/checked-circle.svg') !important;
+}
+

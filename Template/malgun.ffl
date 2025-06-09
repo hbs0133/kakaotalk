@@ -1,0 +1,9 @@
+{
+  "styleName": "malgun",
+  "items": {
+    "edit_here": "\r\n@font-face {\r\n\tfont-family: 'edit_here';\r\n\t\r\n\r\n}\r\n",
+    "malgun": "\r\n@font-face {\r\n\tfont-family: 'malgun';\r\n\tsrc: url('Assets/fonts/malgun.ttf');\r\n\r\n}\r\n",
+    "malgunbd": "\r\n@font-face {\r\n\tfont-family: 'malgunbd';\r\n\tsrc: url('Assets/fonts/malgunbd.ttf');\r\n\r\n}\r\n",
+    "malgunsl": "\r\n@font-face {\r\n\tfont-family: 'malgunsl';\r\n\tsrc: url('Assets/fonts/malgunsl.ttf');\r\n\r\n}\r\n"
+  }
+}

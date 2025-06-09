@@ -1,0 +1,12 @@
+{
+  "styleName": "kakaotalk",
+  "items": {
+    "edit_here": "\r\n@font-face {\r\n\tfont-family: 'edit_here';\r\n\t\r\n\r\n}\r\n",
+    "KakaoBigSans-Bold": "\r\n@font-face {\r\n\tfont-family: 'KakaoBigSans-Bold';\r\n\tsrc: url('Assets/fonts/KakaoBigSans-Bold.ttf');\r\n}\r\n",
+    "KakaoBigSans-ExtraBold": "\r\n@font-face {\r\n\tfont-family: 'KakaoBigSans-ExtraBold';\r\n\tsrc: url('Assets/fonts/KakaoBigSans-ExtraBold.ttf');\r\n}\r\n",
+    "KakaoBigSans-Regular": "\r\n@font-face {\r\n\tfont-family: 'KakaoBigSans-Regular';\r\n\tsrc: url('Assets/fonts/KakaoBigSans-Regular.ttf');\r\n\r\n}\r\n",
+    "KakaoSmallSans-Bold": "\r\n@font-face {\r\n\tfont-family: 'KakaoSmallSans-Bold';\r\n\tsrc: url('Assets/fonts/KakaoSmallSans-Bold.ttf');\r\n\r\n}\r\n",
+    "KakaoSmallSans-Light": "\r\n@font-face {\r\n\tfont-family: 'KakaoSmallSans-Light';\r\n    src: url('Assets/fonts/KakaoSmallSans-Light.ttf');\r\n\r\n}\r\n",
+    "KakaoSmallSans-Regular.": "\r\n@font-face {\r\n\tfont-family: 'KakaoSmallSans-Regular.';\r\n\tsrc: url('Assets/fonts/KakaoSmallSans-Regular.ttf');\r\n\r\n}\r\n"
+  }
+}

@@ -1,0 +1,64 @@
+<div data-base="AView" data-class="LoginView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(254, 229, 0); background-size: contain;" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;AButton&quot;,&quot;ALabel&quot;,&quot;AImage&quot;,&quot;ATextField&quot;,&quot;ACheckBox&quot;]}" data-background-option="fit"
+    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 97px; align-items: center; position: absolute; place-content: flex-start center; height: 26px; padding-right: 3px; padding-bottom: 5px; gap: 5px; top: 0px; right: 0px; padding-top: 5px;" name="controls"
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 16px; height: 16px; position: relative; background-color: rgba(0, 0, 0, 0); left: 0px; top: 0px; margin-left: 10px; background-image: url(&quot;Assets/setting.svg&quot;); background-size: contain; background-repeat: no-repeat; background-position: center center; cursor: pointer;" data-background-option="fit" name="setting-btn" data-style-over="setting-btn-over"></button
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; position: relative; background-color: rgba(0, 0, 0, 0); color: rgb(187, 169, 0); left: 0px; top: 0px; font-size: 17px; height: auto;">|</label
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="height: 18px; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); width: 18px; background-image: url(&quot;Assets/minus.svg&quot;); background-repeat: no-repeat; background-position: center center; margin-top: 5px; background-size: contain; cursor: pointer;" data-background-option="fit" name="minimize-btn" data-style-over="minimize-btn-over"></button
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 16px; height: 16px; position: relative; left: 0px; top: 0px; font-weight: normal; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;Assets/x-mark.svg&quot;); background-repeat: no-repeat; background-position: center center; background-size: contain; cursor: pointer;" data-background-option="fit" name="close-btn" data-style-over="close-btn-over"></button
+        ></div
+    ></div
+    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="height: auto; align-items: center; position: relative; flex-direction: column; justify-content: center; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0); width: 250px;" name="container"
+        ><div style="position: relative; box-sizing: border-box;"
+            ><img data-base="AImage" data-class="AImage" class="AImage-Style" style="width: auto; position: relative; height: 100px; left: 0px; top: 0px; margin-top: 85px;" src="Assets/kakao-talk_2111466.png" name="logo"
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><input data-base="ATextField" data-class="ATextField" type="text" value="" class="ATextField-Style login-input-placeholder" autocomplete="off" style="position: relative; left: 0px; top: 0px; width: 240px; margin-top: 30px; height: 40px; border-style: solid solid none; border-radius: 2px 2px 0px 0px; font-family: malgunsl; font-size: 12px; color: rgb(0, 0, 0); border-top-width: 1px; border-top-color: rgb(228, 206, 0); border-left-width: 1px; border-left-color: rgb(228, 206, 0); border-right-width: 1px; border-right-color: rgb(228, 206, 0); padding-left: 5px; background-position: right 5px center; background-image: url(&quot;Assets/play.svg&quot;); background-repeat: no-repeat;" placeholder="카카오 계정 (이메일 또는 전화번호)" name="email-input" id="LoginView--emailInput" data-listener-change="LoginView:onEmailInputChange" data-style="login-input-placeholder" data-style-focus="input-focus"
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><input data-base="ATextField" data-class="ATextField" type="password" value="" class="ATextField-Style" autocomplete="off" style="width: 240px; position: relative; left: 0px; top: 0px; height: 40px; border-color: rgb(240, 240, 240) rgb(228, 206, 0) rgb(228, 206, 0); border-width: 1px; border-style: solid; border-radius: 0px 0px 2px 2px; color: rgb(50, 39, 35); font-family: malgunsl; padding-left: 5px; background-image: url(&quot;Assets/eye.svg&quot;); background-repeat: no-repeat; background-position: right 5px center;" placeholder="비밀번호" name="password-input" id="LoginView--passwordInput" data-listener-change="LoginView:onPasswordInputChange" data-style-focus="input-focus"
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 240px; position: relative; left: 0px; top: 0px; margin-top: 5px; border-radius: 3px; font-family: malgunsl; font-size: 13px; color: rgb(255, 255, 255); border-color: rgb(228, 206, 0); border-width: 1px; border-style: solid; height: 40px; background-color: rgb(66, 54, 48); cursor: pointer;" name="login-btn" id="LoginView--loginBtn" data-style-disable="btn-disabled" data-listener-click="LoginView:onLoginBtnClick" data-style-over="login-btn-over">로그인</button
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="height: 100%; align-items: center; position: relative; left: 0px; top: 0px; justify-content: space-between; width: 240px;"
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="height: auto; position: relative; left: 0px; top: 0px; border-top: 1px solid rgb(236, 213, 0); width: 100px;"></label
+                ></div
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; margin-top: 15px; font-size: 10px; font-family: malgunsl; margin-bottom: 15px; left: 0px; top: 0px;">또는</label
+                ></div
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="height: auto; position: relative; left: 0px; top: 0px; border-top: 1px solid rgb(236, 213, 0); width: 100px;"></label
+                ></div
+            ></div
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 240px; height: 40px; position: relative; font-family: KakaoBigSans-Regular; font-weight: normal; font-size: 13.5px; border-width: 1px; border-style: solid; border-color: rgb(228, 206, 0); letter-spacing: 1px; left: 0px; top: 0px; cursor: pointer;" name="login-qr-btn"
+                ><img src="Assets/qr-code.svg" style="margin: 0px 3px 0px 0px;">QR코드 로그인
+            </button
+        ></div
+        ><div style="position: relative; box-sizing: border-box; align-self: flex-start;"
+            ><span data-base="ACheckBox" data-class="ACheckBox" class="ACheckBox-Style" tabindex="0" style="width: 100%; height: 100%; position: relative; font-family: malgun; margin-top: 20px; color: rgb(117, 105, 0); font-size: 12px; left: 0px; top: 0px; background-image: url(&quot;Assets/circle.svg&quot;); cursor: pointer;" data-check-class="check-box-checked" name="auto-login-check">자동 로그인</span
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: center; position: relative; left: 0px; top: 0px; margin-top: 120px; gap: 10px;"
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; font-family: malgunsl; background-color: rgba(0, 0, 0, 0); color: rgb(117, 105, 0); cursor: pointer;">카카오 계정 찾기</button
+                ></div
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px;">|</label
+                ></div
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; font-family: malgunsl; background-color: rgba(0, 0, 0, 0); color: rgb(117, 105, 0); cursor: pointer;">비밀번호 재설정</button
+                ></div
+            ></div
+        ></div
+    ></div
+></div>

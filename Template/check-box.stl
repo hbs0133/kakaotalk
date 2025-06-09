@@ -1,0 +1,7 @@
+{
+  "styleName": "check-box",
+  "items": {
+    "edit_here": "\r\n.check-box\r\n{\r\n\t/* TODO:edit here */\r\n\r\n}\r\n",
+    "check-box-checked": ".check-box-checked\r\n{\r\n    background-image: url('Assets/checked-circle.svg');\r\n}\r\n\r\n"
+  }
+}

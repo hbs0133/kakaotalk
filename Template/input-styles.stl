@@ -1,0 +1,8 @@
+{
+  "styleName": "input-styles",
+  "items": {
+    "edit_here": "\r\n.edit_here\r\n{\r\n\t/* TODO:edit here */\r\n\r\n}\r\n",
+    "login-input-placeholder": ".login-input-placeholder\r\n{\r\n}\r\n\r\n",
+    "input-focus": ".input-focus\r\n{\r\n    outline: none;\r\n}\r\n\r\n"
+  }
+}

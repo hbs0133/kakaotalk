@@ -1,0 +1,550 @@
+{
+  "projectName": "Kakaotalk",
+  "fileTree": {
+    "type": 0,
+    "name": "Kakaotalk",
+    "children": [
+      {
+        "type": 1,
+        "name": "Framework",
+        "action": 1,
+        "children": [
+          {
+            "type": 11,
+            "name": "afc",
+            "relType": 1,
+            "path": "Framework\\"
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "Library",
+        "action": 2,
+        "children": [
+          {
+            "type": 5,
+            "name": "RadioBtnManager.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "Template",
+        "action": 4,
+        "children": [
+          {
+            "type": 1,
+            "name": "Theme",
+            "children": []
+          },
+          {
+            "type": 4,
+            "name": "KakaotalkApp_global.stl",
+            "relType": 1,
+            "path": "Template\\"
+          },
+          {
+            "type": 13,
+            "name": "kakaotalk.ffl",
+            "action": 12,
+            "relType": 1,
+            "path": "Template\\",
+            "comment": ""
+          },
+          {
+            "type": 13,
+            "name": "malgun.ffl",
+            "action": 12,
+            "relType": 1,
+            "path": "Template\\",
+            "comment": ""
+          },
+          {
+            "type": 4,
+            "name": "check-box.stl",
+            "action": 8,
+            "relType": 1,
+            "path": "Template\\",
+            "comment": ""
+          },
+          {
+            "type": 4,
+            "name": "btn-styles.stl",
+            "action": 8,
+            "relType": 1,
+            "path": "Template\\",
+            "comment": ""
+          },
+          {
+            "type": 4,
+            "name": "input-styles.stl",
+            "action": 8,
+            "relType": 1,
+            "path": "Template\\",
+            "comment": ""
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "Query",
+        "children": []
+      },
+      {
+        "type": 1,
+        "name": "Assets",
+        "children": [
+          {
+            "type": 8,
+            "name": "kakao-talk_2111466.png",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "x-mark.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "setting.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "minus.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 1,
+            "name": "fonts",
+            "children": [
+              {
+                "type": 8,
+                "name": "KakaoBigSans-Bold.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "KakaoBigSans-ExtraBold.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "KakaoBigSans-Regular.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "KakaoSmallSans-Bold.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "KakaoSmallSans-Light.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "KakaoSmallSans-Regular.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "malgun.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "malgunbd.ttf",
+                "relType": 1,
+                "path": "\\"
+              },
+              {
+                "type": 8,
+                "name": "malgunsl.ttf",
+                "relType": 1,
+                "path": "\\"
+              }
+            ]
+          },
+          {
+            "type": 8,
+            "name": "qr-code.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "circle.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "checked-circle.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "setting-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "x-mark-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "minus-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "Rectangle 6640.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "play.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "eye.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "user-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "user-solid-select.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "user-solid-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "comment-solid-select.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "comment-solid-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "comment-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "ellipsis-solid-select.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "ellipsis-solid-over.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "ellipsis-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "x-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "x-mark-838383.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "Rectangle.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "full-square.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "minus-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "face-smile-regular.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "bell-slash-regular.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "cog-838383.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "magnifying-glass-solid.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "zoom.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "user-plus.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "asoo.png",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "spidergen.svg",
+            "relType": 1,
+            "path": "\\"
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "Source",
+        "children": [
+          {
+            "type": 5,
+            "name": "KakaotalkApp.js",
+            "relType": 1,
+            "path": "Source\\"
+          },
+          {
+            "type": 5,
+            "name": "MainView.js",
+            "relType": 1,
+            "path": "Source\\"
+          },
+          {
+            "type": 3,
+            "name": "MainView.lay",
+            "relType": 1,
+            "path": "Source\\"
+          },
+          {
+            "type": 1,
+            "name": "Views",
+            "children": [
+              {
+                "type": 1,
+                "name": "MainTabView",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "MainTabView.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "MainTabView.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "LoginView",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "LoginView.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "LoginView.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": 1,
+            "name": "TabSubViews",
+            "children": [
+              {
+                "type": 1,
+                "name": "FriendListView",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "FriendListView.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "FriendListView.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "MessageListView",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "MessageListView.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "MessageListView.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": 1,
+            "name": "ListViewItems",
+            "children": [
+              {
+                "type": 1,
+                "name": "FriendListViewItem",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "FriendListViewItem.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "FriendListViewItem.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "Resource",
+        "children": [
+          {
+            "type": 8,
+            "name": "common.json",
+            "relType": 1,
+            "path": "Resource\\"
+          }
+        ]
+      },
+      {
+        "type": 14,
+        "name": "index.html",
+        "relType": 1,
+        "path": ""
+      }
+    ]
+  },
+  "version": "4.2.2",
+  "flavor": {
+    "common": "common"
+  },
+  "defaultLanguage": "js"
+}
