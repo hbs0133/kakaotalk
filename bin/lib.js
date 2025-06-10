@@ -24713,6 +24713,316 @@ AFloat.prototype._checkBg = function(cntr)
 
 
 /**
+ * @author bks
+ * @working date 2017-08-18
+ */
+ 
+class AToast extends AFloat
+{
+	constructor()
+	{
+		super()
+	
+		this.isBgCheck = false;
+		this.curSpan = null;
+
+		this.divCss = {
+			'position': 'absolute',
+			'width': '100%',
+			'bottom': '100px',
+			'text-align': 'center',
+			'z-index': '2147483647'
+		};
+
+		this.spanCss = [
+			'background-color:rgba(32, 32, 32, 0.7)',
+			'border-radius:6px',
+			'color:#fff',
+			'padding:20px',
+			'margin:20px',
+			'box-shadow:3px 3px 8px #222222',
+			'font-size:20px',
+			'white-space:pre-line',
+			'display:inline-block',
+			'word-break:break-all'
+		];
+	}
+
+	
+	
+}
+
+window.AToast = AToast
+
+AToast.globalToast = null;
+AToast.single = function(){
+	AToast.globalToast = new AToast();
+};
+
+AToast.show = function(text, duration)
+{
+	var toast;
+	if(AToast.globalToast) toast = AToast.globalToast;
+	else toast = new AToast();
+	toast.show(text, duration);
+};
+
+AToast.callback = function(text, callback, duration)
+{
+	var toast;
+	if(AToast.globalToast) toast = AToast.globalToast;
+	else toast = new AToast();
+	toast.callback(text, callback, duration);
+};
+
+
+AToast.prototype.init = function()
+{
+	AFloat.prototype.init.call(this);
+	
+};
+
+AToast.prototype._createSpan = function(text)
+{
+	this.curSpan =  document.createElement('span');
+	this.curSpan.style.cssText = this.spanCss.join(";");
+	this.curSpan.innerHTML = text;
+};
+
+AToast.prototype.show = function(text, duration)
+{
+	if(this.curSpan) this.curSpan.innerHTML = text;
+	else
+	{
+		var thisObj = this;
+		if(!duration) duration = 2;	
+		
+		this.init();	//Toast div 생성
+		
+		this._createSpan(text);	//Toast Span 생성
+
+		AFloat.prototype.append.call(this, this.curSpan);	//Toast 객체 삽입
+		//this.$frame.addClass('show-toast' + duration);
+
+		//Toast DIV css 정보 추가
+		AFloat.prototype.popupEx.call(this, this.divCss, null);
+		
+		setTimeout(function(){
+			thisObj.curSpan = null;
+			AFloat.prototype.close.call(thisObj);
+		}, duration*1000);
+
+	}
+};
+
+/*
+AToast.prototype.close = function()
+{
+	AFloat.prototype.close.call(this);
+
+};
+*/
+
+AToast.prototype.callback = function(text, callback, duration)
+{
+	callback({"proc": "start"});
+	
+	if(this.curSpan) this.curSpan.innerHTML = text;
+	else
+	{
+		var thisObj = this;
+		if(!duration) duration = 2;	
+		
+		this.init();	//Toast div 생성
+		
+		this._createSpan(text);	//Toast Span 생성
+
+		AFloat.prototype.append.call(this, this.curSpan);	//Toast 객체 삽입
+		//this.$frame.addClass('show-toast' + duration);
+
+		//Toast DIV css 정보 추가
+		AFloat.prototype.popupEx.call(this, this.divCss, null);
+		
+		setTimeout(function(){
+			thisObj.curSpan = null;
+			AFloat.prototype.close.call(thisObj);
+			
+			callback({"proc": "end"});
+		}, duration*1000);
+
+	}
+};
+
+
+
+/**
+ * @author bks
+ * @working date 2017-08-18
+ */
+ 
+class AIndicator extends AFloat
+{
+	constructor()
+	{
+		super()
+	
+		this.isFocusLostClose = false;
+		this.indiSpan = null;
+		this.spinClassName = 'loader_type2';
+
+		this.divCss = {
+			'position': 'absolute',
+			'width': '100%',
+			'height': '100%',
+			//'z-index': '2147483647',
+			'background': 'rgba(0,0,0,0)'
+		};
+
+		this.spanCss = [
+			'box-shadow:2px 2px 5px rgba(34, 34, 34, 0.5)',
+			'-webkit-filter: drop-shadow(2px 2px 5px rgba(34, 34, 34, 0.5))',
+			'-moz-filter: drop-shadow(2px 2px 5px rgba(34, 34, 34, 0.5))',
+			'-ms-filter: drop-shadow(2px 2px 5px rgba(34, 34, 34, 0.5))',
+			'-o-filter: drop-shadow(2px 2px 5px rgba(34, 34, 34, 0.5))',
+			'filter: drop-shadow(2px 2px 5px rgba(34, 34, 34, 0.5))'
+		];
+	}
+	
+}
+
+window.AIndicator = AIndicator
+
+AIndicator.indicator = null;
+AIndicator.prgRefCount = 0;
+AIndicator.isOltp = false;
+
+AIndicator.setBackground = function(background)
+{
+	if(!AIndicator.indicator) AIndicator.indicator = new AIndicator();
+	AIndicator.indicator.divCss.background = background || 'rgba(0,0,0,0)';
+};
+
+AIndicator.setClass = function(cssName)
+{
+	if(!AIndicator.indicator) AIndicator.indicator = new AIndicator();
+	AIndicator.indicator.setClassName(cssName);
+};
+
+AIndicator.show = function()
+{
+	if(AIndicator.isOltp) return;
+	if(++AIndicator.prgRefCount>1) return;
+
+	if(AIndicator.timeout)
+	{
+		clearTimeout(AIndicator.timeout);
+		AIndicator.timeout = null;
+		return;
+	}
+	
+	if(!AIndicator.indicator) AIndicator.indicator = new AIndicator();
+	AIndicator.indicator.show();
+};
+
+AIndicator.hide = function()
+{
+	if(AIndicator.isOltp || AIndicator.prgRefCount==0) return;
+	if(--AIndicator.prgRefCount>0) return;
+	
+	if(AIndicator.timeout)
+	{
+		clearTimeout(AIndicator.timeout);
+		AIndicator.timeout = null;
+	}
+
+	//show 상태에서 hide, show 호출되면 인디케이터가 사라졌다 보임처리 되므로
+	//연속성을 위해 setTimeout 으로 숨김처리한다.
+	AIndicator.timeout = setTimeout(function()
+	{
+		AIndicator.timeout = null;
+		if(AIndicator.indicator) AIndicator.indicator.hide();
+	});
+};
+
+AIndicator.beginOltp = function()
+{
+	if(AIndicator.isOltp) return;
+	//oltp가 아니고 프로그레스가 더 있으면 무조건 제거
+	if(AIndicator.prgRefCount>0) AIndicator.endOltp();
+	
+	AIndicator.prgRefCount = 0;
+	AIndicator.show();
+	AIndicator.isOltp = true;
+};
+
+AIndicator.endOltp = function()
+{
+	AIndicator.isOltp = false;
+	AIndicator.prgRefCount = 1;
+	AIndicator.hide();
+};
+
+AIndicator.prototype.init = function()
+{
+	AFloat.prototype.init.call(this);
+	
+};
+
+AIndicator.prototype.setClassName = function(cssName)
+{
+	this.spinClassName = cssName||'loader_type2';
+	
+	if(this.indiSpan) this.indiSpan.setAttribute('class', this.spinClassName);
+};
+
+AIndicator.prototype.createSpan = function()
+{
+	this.indiSpan = document.createElement('div');
+	//this.indiSpan.style.cssText = this.spanCss.join(";");
+	//this.indiSpan.setAttribute('class', 'loadspin-box');
+	
+	this.indiSpan.setAttribute('class', this.spinClassName);
+};
+
+AIndicator.prototype.show = function()
+{
+	AIndicator.isShow = true;
+
+	if(!afc.isSimulator && window.cordova) window.cordova.exec( null , null, "AppPlugin" , "progress", [AppManager.PROGRESS_SHOW]);
+	else 
+	{
+		this.init();	//Indicator div 생성		
+		
+		this.createSpan();	//Indicator Span 생성
+		
+		this.append(this.indiSpan);	//Indicator 객체 삽입
+
+		//Toast DIV css 정보 추가
+		this.popupEx(this.divCss, null);
+
+	}
+
+};
+
+
+AIndicator.prototype.hide = function()
+{
+	AIndicator.isShow = false;
+	
+	if(!afc.isSimulator && window.cordova) window.cordova.exec( null , null, "AppPlugin" , "progress", [AppManager.PROGRESS_HIDE]);
+	else
+	{
+		if(this.$frame) 
+		{
+			this.indiSpan = null;		
+			this.close();
+		}
+	}
+};
+
+
+
+/**
  * @author asoocool
  */
  
@@ -28786,6 +29096,3688 @@ RadioBtnManager.prototype.reset = function(view)
 	if(view!=undefined) this.view = view;
 };
 
+
+
+ABuffer = class ABuffer
+{
+    constructor(size)
+    {
+        if(size>0) this.buf = new Uint8Array(size);
+        else this.buf = null;
+        
+        this.offset = 0;
+        this.dataSize = 0;
+        
+        this.emptyChar = ABuffer.emptyChar;//' ' 
+        this.emptyNumChar = ABuffer.emptyNumChar;//'0';
+        this.charset = null;
+        this.encoder = null;
+        this.decoder = null;
+    }
+}
+
+//static 함수에서 쓰이는 값
+ABuffer.emptyChar = 0x20;
+ABuffer.emptyNumChar = 0x30;
+
+ABuffer.MAX_INT = Math.pow(2, 53);
+ABuffer.MASK31 = 0x7fffffff;
+ABuffer.MASK32 = 0xffffffff;
+ABuffer.VAL31 = 0x80000000;
+ABuffer.VAL32 = 0x100000000;
+
+ABuffer.prototype.getBufSize = function() { return this.buf.length; };
+ABuffer.prototype.getBuffer = function() { return this.buf; };
+
+ABuffer.prototype.getOffset = function() { return this.offset; };
+ABuffer.prototype.getCharset = function() { return this.charset; };
+
+ABuffer.prototype.setBuffer = function(buf) { this.buf = buf; };
+ABuffer.prototype.setOffset = function(offset) { this.offset = offset; };
+ABuffer.prototype.addOffset = function(add) { this.offset += add; };
+
+ABuffer.prototype.setBufferByString = function(str) 
+{
+	try
+	{
+		this.buf = this.encoder.encode(str);
+	}
+	catch(e)
+	{
+		alert('setBufferByString:encoding error - ' + str);
+	}
+};
+
+ABuffer.prototype.setDataSize = function(size) { this.dataSize = size; };
+ABuffer.prototype.getDataSize = function() { return this.dataSize; };
+
+ABuffer.prototype.EOF = function() { return (this.offset>=this.dataSize); };
+
+ABuffer.prototype.setCharset = function(charset) 
+{
+	this.charset = charset;
+	
+	if(this.charset)
+	{
+		this.encoder = new ATextEncoder(this.charset);
+		this.decoder = new ATextDecoder(this.charset);
+	}
+	else
+	{
+		this.encoder = null;
+		this.decoder = null;
+	}
+};
+
+ABuffer.prototype.setEmptyChar = function(emptyChar)
+{
+	this.emptyChar = emptyChar;
+};
+
+ABuffer.prototype.setEmptyNumChar = function(emptyNumChar)
+{
+	this.emptyNumChar = emptyNumChar;
+};
+
+//this.buf 의 offset 위치에 fromBuf 의 내용을 복사
+ABuffer.prototype.copyBuffer = function(fromBuf, offset) 
+{
+	this.buf.set(fromBuf, offset);
+};
+
+
+ABuffer.prototype.fillBuffer = function(value, size)
+{
+	if(!size) size = this.buf.length;
+	
+	for(var i=0; i<size; i++)
+		this.buf[i] = value;
+};
+
+//buf[start] ~ buf[end-1]
+ABuffer.prototype.subArray = function(start, end)
+{
+	return this.buf.subarray(start, end);
+};
+
+ABuffer.prototype.subDataArray = function()
+{
+	return this.buf.subarray(0, this.getDataSize());
+};
+
+
+//------------------------------------------------------------
+//	about byte
+ABuffer.prototype.setByte = function(offset, value)
+{
+	this.buf[offset] = value;
+	this.offset = offset + 1;
+};
+
+ABuffer.prototype.addByte = function(value) 
+{ 
+	this.setByte(this.offset, value);
+};
+
+ABuffer.prototype.getByte = function(offset)
+{
+	this.offset = offset + 1;
+	return this.buf[offset];
+};
+
+ABuffer.prototype.nextByte = function()
+{
+	return this.getByte(this.offset); 
+};
+
+//------------------------------------------------------------
+//	about word
+ABuffer.prototype.setWord = function(offset, value)	{ this.setType(offset, 2, value); };
+ABuffer.prototype.addWord = function(value)			{  this.setType(this.offset, 2, value); };
+//unsigned short
+ABuffer.prototype.getWord = function(offset)		{ return this.getType(offset, 2, true); };
+ABuffer.prototype.nextWord = function()				{ return this.getType(this.offset, 2, true); };
+//signed short
+ABuffer.prototype.getShort = function(offset)		{ return this.getType(offset, 2, false); };
+ABuffer.prototype.nextShort = function()			{ return this.getType(this.offset, 2, false); };
+
+
+//------------------------------------------------------------
+//	about dword
+ABuffer.prototype.setDWord = function(offset, value)	{ this.setType(offset, 4, value); };
+ABuffer.prototype.addDWord = function(value)			{ this.setType(this.offset, 4, value); };
+//unsigned Int
+ABuffer.prototype.getDWord = function(offset)			{ return this.getType(offset, 4, true); };
+ABuffer.prototype.nextDWord = function()				{ return this.getType(this.offset, 4, true); };
+//signed Int
+ABuffer.prototype.getInt = function(offset)				{ return this.getType(offset, 4, false); };
+ABuffer.prototype.nextInt = function()					{ return this.getType(this.offset, 4, false); };
+
+//------------------------------------------------------------
+//	about type number
+
+/*
+ABuffer.prototype.setType = function(offset, size, value)
+{
+	value = parseInt(value, 10);
+	
+	if(size==8)
+	{
+        var hi = Math.abs(value);
+        var lo = hi % ABuffer.VAL32;
+        hi = hi / ABuffer.VAL32;
+        if(hi>ABuffer.VAL32) console.log(hi  + ' is outside Int64 range!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        hi = hi | 0;
+	
+		// Copy bytes to buffer
+		var b = this.buf, i;
+		
+		for(i=7; i>=0; i--) 
+		{
+			b[offset+i] = lo & 0xff;
+		  	lo = i == 4 ? hi : lo >>> 8;
+		}
+		
+		// Restore sign of passed argument
+		if(value<0) 
+		{
+			var carry = 1, v = 0;
+			for(i=offset+7; i>=offset; i--) 
+			{
+				v = (b[i] ^ 0xff) + carry;
+				b[i] = v & 0xff;
+				carry = v >> 8;
+			}
+		}
+	}
+	else
+	{
+		for(var i=0; i<size; i++)
+			this.buf[offset+i] = ( value >> ((size-1-i)*8) );
+	}
+	
+	this.offset = offset + size;	
+};
+*/
+
+ABuffer.prototype.setType = function(offset, size, value)
+{
+	value = parseInt(value, 10);
+	
+	var hi = Math.abs(value);
+	var lo = hi % ABuffer.VAL32;
+	
+	hi = hi / ABuffer.VAL32;
+	
+	if(hi>ABuffer.VAL32) console.log(hi  + ' is outside Int64 range!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+	hi = hi | 0;
+
+	// Copy bytes to buffer
+	var b = this.buf, i;
+
+	for(i=size-1; i>=0; i--) 
+	{
+		b[offset+i] = lo & 0xff;
+		lo = i == 4 ? hi : lo >>> 8;
+	}
+
+	// Restore sign of passed argument
+	if(value<0) 
+	{
+		var carry = 1, v = 0;
+		for(i=offset+size-1; i>=offset; i--) 
+		{
+			v = (b[i] ^ 0xff) + carry;
+			b[i] = v & 0xff;
+			carry = v >> 8;
+		}
+	}
+	
+	this.offset = offset + size;
+};
+
+
+ABuffer.prototype.addType = function(size, value) 
+{ 
+	this.setType(this.offset, size, value);
+};
+
+
+ABuffer.prototype.getType = function(offset, size, unsigned)
+{
+	this.offset = offset + size;
+	
+	var ret = 0;
+	var b = this.buf, negate = 0, carry = 1, v = 0;
+	
+	if(!unsigned) negate = (b[offset] & 0x80);
+
+	for(var i=size-1, m=1; i >= 0; i--, m *= 256) 
+	{
+		v = b[offset+i];
+
+		// 2's complement for negative numbers
+		if(negate) 
+		{
+			v = (v ^ 0xff) + carry;
+			carry = v >> 8;
+			v = v & 0xff;
+		}
+
+		ret += v * m;
+	}
+
+	// Return Infinity if we've lost integer precision
+	//if (ret >= ABuffer.MAX_INT) 
+	//{
+	//	return negate ? -Infinity : Infinity;
+	//}
+
+	return negate ? -ret : ret;
+};
+
+
+/*
+ABuffer.prototype.getType = function(offset, size)
+{
+	this.offset = offset + size;
+	
+	var ret = 0;
+	
+	if(size==8)
+	{
+		var hi = this.getType(offset, 4);
+		var lo = this.nextType(4);
+	
+		ret = (hi << 32) | lo;
+		return ret;
+	}
+	else
+	{
+		for(var i=0; i<size; i++)
+			ret |= ( this.buf[offset+i] << ((size-1-i)*8) );
+			
+		return ret;
+	}
+};
+*/
+
+ABuffer.prototype.nextType = function(size, unsigned)
+{
+	return this.getType(this.offset, size, unsigned);
+};
+
+
+//------------------------------------------------------------
+//	set char
+ABuffer.prototype.setChar = function(offset, value)
+{
+	if(value=='') value = ' ';
+	
+	this.buf[offset] = value.charCodeAt(0);
+	this.offset = offset + 1;
+};
+
+ABuffer.prototype.addChar = function(value) 
+{
+	this.setChar(this.offset, value);
+};
+
+//-------------------------------------------------------------
+//	set string
+// 	size 가 1보다 작으면 value 의 길이만큼 공백없이 셋팅된다. 
+
+ABuffer.prototype.setOriString = function(offset, size, value)
+{
+	if(value==null || value==undefined) value = '';
+	
+	//숫자를 문자열로 변환
+	else value = value.toString();
+	
+	var i = 0;
+	if(size<1) size = value.length;
+	var len = Math.min(size, value.length);
+	
+	for(; i<len; i++)
+		this.buf[offset+i] = value.charCodeAt(i);
+	
+	//빈자리는 공백문자로 채움
+	for(; i<size; i++)
+		this.buf[offset+i] = this.emptyChar;
+	
+	this.offset = offset + size;
+};
+
+ABuffer.prototype.addOriString = function(size, value) 
+{
+	this.setOriString(this.offset, size, value); 
+};
+
+
+ABuffer.prototype.setString = function(offset, size, value)
+{
+	if(value==null || value==undefined) value = '';
+	
+	//숫자를 문자열로 변환
+	else value = value.toString();
+	
+	var i = 0, inputSize;
+	
+	if(this.charset) 
+	{
+		try
+		{
+			var encArr = this.encoder.encode(value);
+			if(size<1) size = encArr.length; 
+			inputSize = Math.min(size, encArr.length);
+			for(; i<inputSize; i++)
+				this.buf[offset+i] = encArr[i];
+		}
+		catch(e)
+		{
+			alert('encoding error - ' + value);
+			if(size<1) size = value.length;
+			inputSize = Math.min(size, value.length);
+			//인코딩 에러가 날 경우 공백으로 셋팅
+			for(i=0; i<inputSize; i++)
+				this.buf[offset+i] = this.emptyChar;
+			
+			if(size<1) size = value.length;
+		}
+	}
+	else
+	{
+		if(size<1) size = value.length;
+		inputSize = Math.min(size, value.length);
+		for(; i<inputSize; i++)
+			this.buf[offset+i] = value.charCodeAt(i);
+		
+	}
+	
+	//빈자리는 공백으로 채움
+	for(; i<size; i++)
+		this.buf[offset+i] = this.emptyChar;
+	
+	this.offset = offset + size;
+};
+
+ABuffer.prototype.addString = function(size, value) 
+{
+	this.setString(this.offset, size, value); 
+};
+
+
+
+//--------------------------------------------------------------
+//	set int to string
+ABuffer.setNumString = function(buf, offset, size, value, emptyNumChar)
+{
+	if(value==null || value==undefined || isNaN(value)) value = '0';
+	
+	//숫자를 문자열로 변환
+	else value = value.toString();
+	
+	if(emptyNumChar == undefined) emptyNumChar = ABuffer.emptyNumChar;
+	
+	var i = 0;
+	if(size<1) size = value.length;
+	else
+	{
+		//빈자리는 0 으로 채움
+		var valueInx = size - value.length; 
+		for(; i<valueInx; i++)
+			buf[offset+i] = emptyNumChar;
+	}
+	
+	//실제 숫자를 채움
+	for(var j=0; i<size; i++, j++)
+		buf[offset+i] = value.charCodeAt(j);
+	
+	return size;
+};
+
+ABuffer.prototype.setNumString = function(offset, size, value)
+{
+	size = ABuffer.setNumString(this.buf, offset, size, value, this.emptyNumChar);
+	
+	this.offset = offset + size;
+};
+
+ABuffer.prototype.addNumString = function(size, value) 
+{
+	this.setNumString(this.offset, size, value); 
+};
+
+///////////////////////////////////////////////////////////////////
+//	sign number to string 
+//	+000100, -001.10 -> size = 7
+ABuffer.prototype.setSNumString = function(offset, size, value)
+{
+	if(value==null || value==undefined) 
+	{
+		value = '0';
+		this.buf[offset] = 0x2B;			//+
+	}
+	
+	//숫자를 문자열로 변환
+	else 
+	{
+		if(value<0) 
+		{
+			this.buf[offset] = 0x2D;	//-
+			//value *= -1;				//부호를 셋팅했으므로 양수화 한다.
+			value = value.toString().substring(1);	//부호 제거
+		}
+		else 
+		{
+			this.buf[offset] = 0x2B;	//+
+			value = value.toString();
+		}
+	
+		//value = value.toString();
+	}
+		
+	var i = 1;
+	
+	if(size<1) size = value.length + 1;	//부호 자리 추가
+	else
+	{
+		//size++;	//부호 자리 추가
+		
+		//빈자리는 0 으로 채움
+		var valueInx = size - value.length; 
+		for(; i<valueInx; i++)
+			this.buf[offset+i] = this.emptyNumChar;
+	}
+	
+	//실제 숫자를 채움
+	for(var j=0; i<size; i++, j++)
+		this.buf[offset+i] = value.charCodeAt(j);
+	
+	this.offset = offset + size;
+};
+
+ABuffer.prototype.addSNumString = function(size, value) 
+{
+	this.setSNumString(this.offset, size, value); 
+};
+
+ABuffer.prototype.setBinary = function(offset, size, value)
+{
+	if(value)
+	{
+		this.buf.set(value, offset);
+
+		var i = value.length;
+
+		//빈자리는 공백으로 채움
+		for(; i<size; i++)
+			this.buf[offset+i] = 0x00;
+	}
+	
+	this.offset = offset + size;
+	
+	//this.buf.set(value, offset);
+	//this.offset = offset + value.length;
+};
+
+ABuffer.prototype.addBinary = function(size, value) 
+{
+	this.setBinary(this.offset, size, value);
+};
+
+
+//------------------------------------------------------------
+//	get string
+
+
+ABuffer.prototype.getBase64String = function(offset, size)
+{
+	this.offset = offset + size;
+	return Base64.btoaArray(this.buf.subarray(offset, offset+size));
+};
+
+ABuffer.prototype.getOriString = function(offset, size, noTrim)
+{
+	var ret = '';
+	
+	for(var i=0; i<size; i++)
+	{
+		if(this.buf[offset+i]==0) break;
+		else ret += String.fromCharCode(this.buf[offset+i]);
+	}
+
+	this.offset = offset + size;
+	
+	if(noTrim) return ret;
+	else return $.trim(ret);
+};
+
+ABuffer.prototype.nextOriString = function(size, noTrim)
+{
+	return this.getOriString(this.offset, size, noTrim);
+};
+
+ABuffer.prototype.getString = function(offset, size, noTrim)
+{
+	var ret = '';
+	
+	if(this.charset) 
+	{
+		for(var i=0; i<size; i++)
+			if(this.buf[offset+i]==0) break;
+		
+		ret = this.decoder.decode(this.buf.subarray(offset, offset+i));
+	}
+	else
+	{
+		for(var i=0; i<size; i++)
+		{
+			if(this.buf[offset+i]==0) break;
+			else ret += String.fromCharCode(this.buf[offset+i]);
+		}
+	}
+
+	this.offset = offset + size;
+	
+	if(noTrim) return ret;
+	else return $.trim(ret);
+};
+
+ABuffer.prototype.nextString = function(size, noTrim)
+{
+	return this.getString(this.offset, size, noTrim);
+};
+
+ABuffer.prototype.getStringTo = function(offset, endValue)
+{
+	var ret = '', size;
+	
+	if(this.charset) 
+	{
+		for(size=0; true; size++)
+		{
+			if(this.buf[offset+size]==endValue) 
+				break;
+		}
+		
+		if(size>0) ret = this.decoder.decode(this.buf.subarray(offset, offset+size));
+	}
+	else
+	{
+		for(size=0; true; size++)
+		{
+			if(this.buf[offset+size]==endValue) 
+				break;
+				
+			ret += String.fromCharCode(this.buf[offset+size]);
+		}
+	}
+
+	this.offset = offset + size + 1;
+	
+	return ret;
+};
+
+ABuffer.prototype.nextStringTo = function(endValue)
+{
+	return this.getStringTo(this.offset, endValue);
+};
+
+
+//------------------------------------------------------------
+//	get int
+ABuffer.prototype.getParseInt = function(offset, size)
+{
+	var ret = '';
+	for(var i=0; i<size; i++)
+		ret += String.fromCharCode(this.buf[offset+i]);
+
+	this.offset = offset + size;
+
+	return parseInt(ret, 10);
+};
+
+ABuffer.prototype.nextParseInt = function(size)
+{
+	return this.getParseInt(this.offset, size);
+};
+
+//------------------------------------------------------------
+//	get number
+ABuffer.prototype.getParseFloat = function(offset, size)
+{
+	var ret = '';
+	for(var i=0; i<size; i++)
+		ret += String.fromCharCode(this.buf[offset+i]);
+
+	this.offset = offset + size;
+
+	return parseFloat(ret);
+};
+
+ABuffer.prototype.nextParseFloat = function(size)
+{
+	return this.getParseFloat(this.offset, size);
+};
+
+ABuffer.prototype.getIpString = function(offset)
+{
+	var ret = '', val = '', i, j, inx = 0;
+	
+	for(i=0; i<4; i++)
+	{
+		val = '';
+		for(j=0; j<3; j++)
+		{
+			val += String.fromCharCode(this.buf[offset+inx]);
+			inx++;
+		}
+		
+		if(i>0) ret += ('.' + parseInt(val, 10));
+		else ret += ('' + parseInt(val, 10));
+	}
+
+	this.offset = offset + inx;
+	
+	return ret;
+};
+
+ABuffer.prototype.nextIpString = function()
+{
+	return this.getIpString(this.offset);
+};
+
+ABuffer.prototype.getBinary = function(offset, size)
+{
+	this.offset = offset + size;
+	
+	return this.buf.subarray(offset, this.offset);	//buf[start] ~ buf[end-1]
+};
+
+ABuffer.prototype.nextBinary = function(size) 
+{
+	return this.getBinary(this.offset, size);
+};
+
+
+//for debug
+ABuffer.prototype.printBySize = function(sizeInfo, offset, radix)
+{
+	if(offset>0) this.offset = offset;
+	else this.offset = 0;
+	
+	var size, bInx = this.offset;
+	var output = '', strHex = '', tmp = '';
+	
+	for(var i=0; i<sizeInfo.length; i++)
+	{
+		size = sizeInfo[i];
+		
+		tmp = '';
+		
+		for(var j=0; j<size; j++)
+		{
+			if(radix==undefined) strHex = String.fromCharCode(this.buf[bInx++]);
+			else 
+			{
+				strHex = this.buf[bInx++].toString(radix);
+				if(strHex.length<2) strHex = '0'+strHex;
+			}
+
+			tmp +=  strHex + ' ';
+		}
+		
+		output += ( (i+1) + ' : ' + tmp + '\r\n' );
+	}
+	
+	console.log(output);
+	
+	return output;
+};
+
+ABuffer.prototype.printBuffer = function(inx, size, radix)
+{
+	if(size==0) return;
+	
+	if(inx==undefined) inx = 0;
+	if(size==undefined) size = this.getBufSize();
+	
+	var output = '';
+	var strHex = '';
+	
+	for(var i=0; i<size; i++)
+	{
+		if(radix==undefined) strHex = String.fromCharCode(this.buf[i+inx]);
+		else
+		{
+			strHex = this.buf[i+inx].toString(radix);
+			if(strHex.length<2) strHex = '0'+strHex;
+		}
+		
+		output +=  strHex + ' ';
+		if((i+1)%10==0) output += '\r\n';
+	}
+	
+	console.log(output);
+	return output;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+this.query = 
+{
+	"meta":
+	{
+	},
+	
+	"name": "obcpp_logn_101a",
+	"queryType": ".STRT" or .SFID or .BFID
+	"pattern": 1,//"단순조회"
+	"mids":[1],
+	
+	"input":
+	{
+		"InBlock1":
+		{
+			//"type": "input",
+			"format":
+			[
+				//설명,필드키,FID,custom,데이터형,사이즈,지수
+				[단축코드,D1단축코드,16013,,string,16,0],
+				...
+			]
+		},
+		
+		...
+	},
+	
+	"output":
+	{
+		"OutBlock1":
+		{
+			//"type": "output",
+			"format":
+			[
+				//설명,필드키,FID,기본값,데이터형,사이즈,지수
+	    		[현재가,D1현재가,15001,,ULONG,4,-2], 
+				...
+			]
+		},
+		
+		...
+	}
+};
+
+*/
+
+AQuery = class AQuery
+{
+    constructor()
+    {
+        this.query = null;
+        
+        //쿼리와 연결된 컴포넌트
+        this.queryComps = {};
+
+    }
+}
+
+//-------------------------------------------------------------
+//	static area
+//
+
+//AQuery.FORMAT = 'res';	//qry, xml, res
+//AQuery.FORMAT = 'qry';	//qry, xml, res
+
+// [ 단축코드, D1단축코드, 16013, 105, STRING, 16, 0 ],
+AQuery.IDESC = 0;
+AQuery.IKEY = 1;
+AQuery.IFID = 2;
+AQuery.IVALUE = 3;
+AQuery.ITYPE = 4;
+AQuery.ISIZE = 5;
+AQuery.IEXP = 6;
+
+
+//데이터 타입 문자열을 숫자 상수로 지정
+//ABuffer 의 getType 의 파라미터로 넣기 위해
+AQuery.BINARY = -2;
+AQuery.STRING = -1;
+AQuery.UNSIGNED = 1;
+AQuery.SIGNED = 0;
+
+//로드된 쿼리 풀
+AQuery.queryMap = {};
+AQuery.getQuery = function(qryName) { return AQuery.queryMap[qryName]; };
+AQuery.setQuery = function(qryName, aquery) { AQuery.queryMap[qryName] = aquery; };
+
+AQuery.path = PROJECT_OPTION.build.subName ? PROJECT_OPTION.build.subName+'/Query/' : 'Query/';
+
+//AQuery.queryCallbacks = {};
+
+AQuery.setQueryFormat = function(format) 
+{
+	if(format=='res-v1')
+	{
+		AQuery.OLD_PARSE = true;
+		format = 'res';
+	}
+	else if(format=='qry-v1')
+	{
+		AQuery.OLD_PARSE = true;
+		format = 'qry';
+	}
+	else AQuery.OLD_PARSE = false;
+	
+	
+	AQuery.FORMAT = format;
+};
+
+/*
+AQuery.getSafeQuery = function(qryName)
+{
+	if(!qryName) return null;
+	
+	var cQryName = qryName.substring(qryName.indexOf('/')+1);
+	var aquery = AQuery.getQuery(cQryName);
+	
+	//쿼리맵에 없으면 로드
+	if(!aquery)
+	{
+		aquery = new AQuery();
+		
+		aquery.loadQuery(AQuery.path + qryName+'.'+AQuery.FORMAT, false, function(success)
+		{
+			//if(!success) alert('load fail : Query/'+qryName+'.'+AQuery.FORMAT);
+			
+			if(success) AQuery.setQuery(cQryName, aquery);
+			else 
+			{
+				theApp.onError('load fail! : Query/'+qryName+'.'+AQuery.FORMAT, 'AQuery', -1, -1, {});
+				console.error('load fail! : Query/'+qryName+'.'+AQuery.FORMAT);
+				//console.log('load fail! : Query/'+qryName+'.'+AQuery.FORMAT);
+				aquery = null;
+			}
+		});
+	}
+	
+	return aquery;
+};
+*/
+
+
+AQuery.getSafeQuerys = function(qryNames, isAddProm)
+{
+	var proms = [];
+	for(var i=0; i<qryNames.length; i++)
+	{
+		proms.push(AQuery.getSafeQuery(qryNames[i], isAddProm) );
+		//await AQuery.getSafeQuery(qryNames[i]);
+	}
+	
+	return proms;
+};
+
+//쿼리파일 로드를 비동기로 한다.
+//AQuery.getQueryAsync = function(qryName, asyncCallback)
+AQuery.getSafeQuery = function(qryName, isAddProm, callback)
+{
+	var prom = new Promise(function(resolve)
+	{
+		if(!qryName) 
+		{
+			if(callback) callback(null);
+			else resolve(null);
+			
+			return;
+		}
+
+		var cQryName = qryName.substring(qryName.indexOf('/')+1);
+		var aquery = AQuery.getQuery(cQryName);
+
+		//이미 로드된 쿼리이면
+		if(aquery)
+		{
+			//네트웍 로딩 상태이면
+			if(aquery.isPending)
+			{
+				if(!aquery.pendingQueue) aquery.pendingQueue = [];
+
+				if(callback) aquery.pendingQueue.push(callback);
+				else aquery.pendingQueue.push(resolve);
+			}
+			else 
+			{
+				if(callback) callback(aquery);
+				else resolve(aquery);
+			}
+		}
+
+		//쿼리맵에 없으면 로드
+		else
+		{
+			//afc.qryWait.reg();
+		
+			aquery = new AQuery();
+			//펜딩 상태로 셋팅하고 로드를 시작한다.
+			aquery.isPending = true;
+
+			AQuery.setQuery(cQryName, aquery);
+
+			aquery.loadQuery(AQuery.path + qryName+'.'+AQuery.FORMAT, true, function(success)
+			{
+				//if(!success) alert('load fail : Query/'+qryName+'.'+AQuery.FORMAT);
+
+				var pendingQueue = aquery.pendingQueue;
+
+				aquery.isPending = undefined;
+				aquery.pendingQueue = undefined;
+
+				if(!success) 
+				{
+					theApp.onError('load fail! : Query/'+qryName+'.'+AQuery.FORMAT, 'AQuery', -1, -1, {});
+					console.error('load fail! : Query/'+qryName+'.'+AQuery.FORMAT);
+					//console.log('load fail! : Query/'+qryName+'.'+AQuery.FORMAT);
+
+					//실패 시 지운다.
+					AQuery.setQuery(cQryName, undefined);
+					aquery = null;
+				}
+				
+				//실패 시 aquery 는 null 이 넘어간다.
+				if(callback) callback(aquery);
+				else resolve(aquery);
+
+				//펜딩큐에 있는 콜백함수들에게도 알린다.
+				if(pendingQueue)
+				{
+					pendingQueue.forEach(function(_callback)
+					{
+						_callback(aquery);
+					});
+				}
+
+				//afc.qryWait.unreg();
+			});
+		}
+	
+	});
+	
+	if(isAddProm) afc.qryWait.addProm(prom);
+	
+	return prom;
+	
+};
+
+
+
+//프로젝트 설정에 따라 값을 셋팅함
+if(PROJECT_OPTION.general.queryFormat==undefined) AQuery.setQueryFormat('qry');
+else AQuery.setQueryFormat(PROJECT_OPTION.general.queryFormat);
+
+
+/*
+0 번째 자리에 name 셋팅, mid 값이 1부터 시작하므로
+AQuery.fidInfoMap = 
+{
+	'16013':
+	[
+		'D1단축코드', ['SHORT',4,-2],,,,,,,['STRING',6,0] --> mid 개수만큼
+	]
+};
+*/
+
+//--------------------------------------------------------------
+
+AQuery.prototype.loadQuery = function(url, isAsync, callback)
+{
+	var thisObj = this;
+	
+    $.ajax(
+    {
+    	async:isAsync, url: url, dataType: 'text',
+        success: function(result)
+        {
+			if(result) 
+			{
+				thisObj.query = AQuery.parseQuery(result);
+        		if(callback) callback.call(thisObj, true);
+			}
+			else if(callback) callback.call(thisObj, false);
+        },
+        
+        error: function()
+        {
+        	if(callback) callback.call(thisObj, false);
+        }
+    });
+};
+
+AQuery.parseQuery = function(strQuery)
+{
+	try
+	{
+		var func = AQuery['parse_'+AQuery.FORMAT];
+
+		if(func) return func.call(this, strQuery);
+		else alert('There is no parse function : parse_' + AQuery.FORMAT);
+	}
+	catch(err) 
+	{
+		console.log('AQuery.parseQuery : ' + err.message);
+		console.log(strQuery);	
+	}
+
+	return null;
+};
+
+
+//-----------------------------
+//	strQuery qry format
+
+AQuery.parse_qry = function(strQuery)
+{
+	if(AQuery.OLD_PARSE)
+	{
+		return AQuery.parse_qry_v1(strQuery);
+	}	
+	var obj = JSON.parse(strQuery), p, sType;
+	
+	for(p in obj.input)
+		_type_helper(obj.input[p].format);
+		
+	for(p in obj.output)
+		_type_helper(obj.output[p].format);
+	
+	function _type_helper(fmt)
+	{
+		for(var i=0; i<fmt.length; i++)
+		{
+			sType = fmt[i][AQuery.ITYPE];
+			
+			if(sType=='binary') sType = AQuery.BINARY;
+			else if(sType=='char') sType = AQuery.STRING;
+			else sType = AQuery.SIGNED;
+			
+			fmt[i][AQuery.ITYPE] = sType;
+			
+			//fmt[i][AQuery.ITYPE] = fmt[i][AQuery.ITYPE]=='char' ? AQuery.STRING : AQuery.SIGNED;
+		}
+	}
+	
+	return obj;
+};
+
+AQuery.parse_qry_v1 = function(strQuery)
+{
+	var block, length, fmtArr, h, i, j, k, nFid, strType;//nSize, nExp
+	var areaName = ['input', 'output'], area;
+	var data = JSON.parse(strQuery);
+	var midLen = 1;
+
+	//계정계 또는 DB조회 인 경우 mids 정보가 없다.
+	if(data.mids) midLen = data.mids.length;
+	
+	for(h=0; h<areaName.length; h++)
+	{
+		area = data[areaName[h]];
+		
+		for(var blockName in area)	//blockName is InBlock1, InBlock2 ...
+		{
+			block = area[blockName];
+			length = block.format.length;
+			
+			if(AQuery.OLD_PARSE && length)
+			{
+				if(Array.isArray(block.format[0])) {
+					AQuery.OLD_PARSE = false;
+					data = AQuery_.parse_qry(strQuery);
+					AQuery.OLD_PARSE = true;
+					return data;
+				}
+			}
+
+			for(i=0; i<length; i++)
+			{
+				//fmtArr => [현재가,D1현재가,15001,,ULONG,4,-2,ULONG,4,-2]
+				fmtArr = block.format[i] = block.format[i].split(',');
+				
+				fmtArr[AQuery.IFID] = nFid = parseInt(fmtArr[AQuery.IFID], 10)||'';
+				
+				//정보계 fidInfoMap 맵 셋팅, fid name
+				if(nFid>0)
+					AQuery.setFidName(nFid, fmtArr[AQuery.IKEY]);
+
+				for(j=0; j<midLen; j++)
+				{
+					k = j * 3;
+					
+					strType = fmtArr[AQuery.ITYPE+k];
+					
+					if(!strType) continue;
+					
+ 					if(strType=='STRING') fmtArr[AQuery.ITYPE+k] = AQuery.STRING;
+					else if(strType=='BINARY') fmtArr[AQuery.ITYPE+k] = AQuery.BINARY;
+					//U(0x55) UINT, USHORT ...
+					else if(strType.charCodeAt(0)==0x55) fmtArr[AQuery.ITYPE+k] = AQuery.UNSIGNED;
+					else fmtArr[AQuery.ITYPE+k] = AQuery.SIGNED;
+					
+					fmtArr[AQuery.ISIZE+k] = parseInt(fmtArr[AQuery.ISIZE+k], 10);
+					fmtArr[AQuery.IEXP+k] = parseInt(fmtArr[AQuery.IEXP+k], 10);
+					
+					//정보계 fidInfoMap 맵 셋팅, size 정보, DB조회는 mids 가 없다.
+					if(data.mids && nFid>0)
+						AQuery.setFidSize(nFid, data.mids[j], fmtArr[AQuery.ITYPE+k], fmtArr[AQuery.ISIZE+k], fmtArr[AQuery.IEXP+k]);
+				}
+			}
+		}
+	}
+	
+	return data;
+};
+
+//-----------------------------
+//	strQuery res format
+AQuery.parse_res = function(strQuery)
+{
+	var block, lines = strQuery.split(/\r?\n+/g), line, info, area, fmtArr, arr, inCnt = 0, outCnt = 0, tmp,
+		data = {}, inout, startStrArr = [
+			'BEGIN_FUNCTION_MAP',
+			'BEGIN_DATA_MAP',
+			'begin',
+			'end',
+			'END_DATA_MAP',
+			'END_FUNCTION_MAP'
+		];
+		
+	var mode, i, j, k, tmp, sType;
+	for(i=0; i<lines.length; i++)
+	{
+		line = $.trim(lines[i]);
+		if(!line) continue;
+		
+		tmp = startStrArr.indexOf(line);
+		if(tmp > -1)
+		{
+			mode = tmp;
+			continue;
+		}
+		
+		info = line.split(';')[0].split(',');
+		
+		for(k=0; k<info.length; k++)
+			info[k] = $.trim(info[k]);
+		
+		//BEGIN_FUNCTION_MAP
+		if(mode == 0)
+		{
+			//----------------------------------------------------
+			//	.Func, (i0001)현재가조회TR, i0001, headtype=B;
+			
+			data.queryType = info[0];
+			data.desc = info[1];
+			data.name = info[2];
+			
+			//존재하는 경우만 셋팅
+			for(j=3; j<info.length; j++)
+			{
+				tmp = info[j].split('=');
+				data[tmp[0]] = tmp[1]?tmp[1]:true;
+			}
+		}
+		
+		// before begin
+		else if(mode == 1 || mode == 3)
+		{
+			//----------------------------------------------------
+			//	info --> i0001Out1,출력,output,occurs;
+			//if(info[2].indexOf('input') > -1) inout = 'input';
+			if(line.includes('input')) inout = 'input';
+			else inout = 'output';
+			
+			if(!data[inout]) area = data[inout] = {};
+			//if(!data[info[2]]) area = data[info[2]] = {};
+			
+			//res 버전에 따라 셋팅 방식을 다르게 분기
+			if(AQuery.OLD_PARSE)
+			{
+ 				if(inout=='input') block = area['InBlock'+(++inCnt)] = {};
+ 				else if(inout=='output') block = area['OutBlock'+(++outCnt)] = {};
+			}
+			else
+			{
+				block = area[info[0]] = {};
+			}
+			
+			//추가 다른 정보가 있는 경우에도 값이 파싱되어야하므로 추가(ex. occursRef)
+			for(j=3; j<info.length; j++)
+			{
+				tmp = info[j].split('=');
+				if (tmp[1]) block[tmp[0]] = tmp[1];
+				else block[tmp[0]] = true;
+			}
+			
+			fmtArr = block['format'] = [];
+			block.desc = info[1];
+			
+			//occurs 정보 저장
+			//if(info[3])
+			if(line.includes('occurs'))
+			{
+				if(data['headtype']=='A') block['occurs'] = 'rsp_cnt';
+				else block['occurs'] = 'out_cnt';
+			
+				//block['occurs'] = true;
+
+				//tmp = info[3].split('=');
+				//if(tmp[1] > 1) block[tmp[0]] = tmp[1];
+			}
+		}
+		
+		//begin
+		else if(mode == 2)
+		{
+			//설명,필드키,FID,custom,데이터형,사이즈,지수
+			tmp = info[4].split('.');
+			
+			sType = info[3];
+			
+			if(sType=='binary') sType = AQuery.BINARY;
+			else if(sType=='char') sType = AQuery.STRING;
+			else sType = AQuery.SIGNED;
+			
+			arr = [ info[0], info[2], undefined, undefined, sType, parseInt(tmp[0], 10), tmp[1]?parseInt(tmp[1], 10):0 ];
+			fmtArr.push(arr);
+		}
+	}
+	return data;
+};
+
+//strQuery is xxx.xml file
+//상단 query 포맷 참조
+AQuery.parse_xml = function(strQuery)
+{
+	var parser = new DOMParser();
+	var xmlQuery = parser.parseFromString(strQuery, "text/xml");
+
+//	try{
+	var $queryXml = $(xmlQuery).find("resource"),
+		blockName, data = {}, attr, i, j, k, l,
+		$inOutXml, area, $formatXml, block, blockName, blockIndex, isStart, prevFieldName;
+	var resourceObj = { 'resourceType': 'queryType', 'physicalName': 'name', 'logicalName': 'desc', },
+		inoutArr = [ 'physicalName', 'logicalName', 'resourceGroup', 'resourceVersion', 'renewalDate' ],
+		fieldArr = [ 'logicalName', 'physicalName', 'symbolCode', '', 'fieldType', 'length', 'decimal', 'desc', 'metaGroup' ];
+		//설명,필드키,FID,custom,데이터형,사이즈,지수		
+	
+	// resourceType, physicalName, logicalName, resourceGroup, resourceVersion, renewalDate
+	for(i=0; i<$queryXml[0].attributes.length; i++)
+	{
+		attr = $queryXml[0].attributes[i];
+		if(resourceObj[attr.nodeName]) data[resourceObj[attr.nodeName]] = attr.nodeValue;
+		else data[attr.nodeName] = attr.nodeValue;
+	}
+	for(i=0; i<$queryXml.children().length; i++)
+	{
+		$inOutXml = $($queryXml.children()[i]);
+		area = data[$inOutXml[0].tagName] = {};
+		blockName = $inOutXml[0].tagName=='input'?'InBlock':'OutBlock';
+		blockIndex = 1;
+		isStart = true;
+		
+		for(j=0; j<$inOutXml.children().length; j++)
+		{
+			$formatXml = $($inOutXml.children()[j]);
+			
+			if(!area[blockName + blockIndex])
+				block = area[blockName + blockIndex] = { "format": [] };
+
+			if(isStart)
+			{
+				// structure 속성값 세팅
+				// physicalName, logicalName, occurs, occursRef, includeStructureName
+				for(k=0; k<$inOutXml[0].attributes.length; k++)
+				{
+					attr = $inOutXml[0].attributes[k];
+					block[attr.nodeName] = attr.nodeValue;
+				}
+			}
+			
+			// input 또는 output 의 자식노드가 structure 인 경우
+			if($formatXml[0].tagName == 'structure')
+			{
+				if(!isStart)
+				{
+					blockIndex++;
+					block = area[blockName + blockIndex] = { "format": [] };
+				}
+				
+				// structure 속성값 세팅
+				// physicalName, logicalName, occurs, occursRef, includeStructureName
+				for(k=0; k<$formatXml[0].attributes.length; k++)
+				{
+					attr = $formatXml[0].attributes[k];
+					block[attr.nodeName] = attr.nodeValue;
+				}
+				
+				// attr변수를 임시로 사용
+				if(block.occursRef)
+				{
+					attr = block.occursRef.split('.');
+					for(var key in area)
+					{
+						if(area[key]['physicalName'] == attr[0])
+						{
+							block.occursRef = key + '.' + attr[1];
+							break;
+						}
+					}
+				}
+				
+				// occurs가 2 이상이고 occursRef가 정해지지 않은 경우 바로 위의 항목으로 연결한다.
+				if(block.occurs > 1 && !block.occursRef)
+					block.occursRef = blockName + (blockIndex-1) + '.' + prevFieldName;
+				
+				for(k=0; k<$formatXml.children().length; k++)
+					block['format'].push(formatFunc($($formatXml.children()[k])));
+			}
+			// input 또는 output 의 자식노드가 field 인 경우
+			else
+			{
+				if($formatXml.attr(fieldArr[AQuery.IKEY]).indexOf('grid_cnt') > -1)
+				{
+					if(!isStart)
+					{
+						blockIndex++;
+						block = area[blockName + blockIndex] = { "format": [] };
+					}
+				}
+				
+				block['format'].push(formatFunc($formatXml));
+			}
+		}
+		
+	}
+	
+	function formatFunc(fmtXml)
+	{
+		isStart = false;
+		var arr = [];
+		
+		prevFieldName = fmtXml.attr(fieldArr[AQuery.IKEY]);
+		
+		//[설명,필드키,FID,custom,데이터형,사이즈,지수,상세설명,필드그룹]
+		for(l=0; l<fieldArr.length; l++)
+		{
+			if(l == AQuery.ITYPE)
+			{
+				if(fmtXml.attr(fieldArr[l]) == 'char') arr.push(AQuery.STRING);
+				else arr.push(AQuery.SIGNED);
+			}
+			else
+			{
+				if(l == AQuery.ISIZE || l == AQuery.IEXP) arr.push(parseInt(fmtXml.attr(fieldArr[l]), 10));
+				else arr.push(fmtXml.attr(fieldArr[l])?fmtXml.attr(fieldArr[l]):'');
+			}
+		}
+		// 상세설명, 필드그룹 정보가 없었을 때 사용했던 로직
+		//[설명,필드키,FID,custom,데이터형,사이즈,지수,상세설명,필드그룹]
+		//for(l=0; l<fmtXml.attributes.length; l++)
+		//{
+		//	attr = fmtXml.attributes[l];
+// 			if(fieldArr.indexOf(attr.nodeName) < 0)
+// 				arr.push(attr.nodeValue);
+// 		}
+		return arr;
+	}
+	return data;
+	//}catch(e){alert(e);}
+};
+
+AQuery.prototype.getTypeIndex = function(mid)
+{
+	if(mid==AQuery.REP_MARKET) return AQuery.ITYPE;
+	
+	var mids = this.getValue('mids');
+	
+	for(var i=0; i<mids.length; i++)
+	{
+		if(mids[i]==mid) return AQuery.ITYPE + (3 * i);
+	}
+	
+	var log = afc.log(mid + ' : 존재하지 않는 타입입니다. 임시로 첫번째값으로 처리합니다. (mid 한정 요망)');
+	if(log) alert(log);
+	
+	return AQuery.ITYPE;
+};
+
+
+AQuery.prototype.getName = function() { return this.query.name; };
+AQuery.prototype.getMeta = function() { return this.query.meta; };
+AQuery.prototype.getQueryType = function() { return this.query.queryType; };
+AQuery.prototype.getRealType = function() { return this.query.realType; };
+
+AQuery.prototype.getTrType = function() { return this.query.trType; };
+AQuery.prototype.getIoVer = function() { return this.query.resourceVersion; };
+
+AQuery.prototype.getValue = function(key) { return this.query[key]; };
+
+AQuery.prototype.getQueryBlock = function(type, blockName)
+{
+	return this.query[type][blockName];
+};
+
+AQuery.prototype.hasQueryBlock = function(type, blockName)
+{
+	return this.query[type]&&this.query[type][blockName];
+};
+
+//type is input/output/nextflag, null is both
+AQuery.prototype.eachQueryBlock = function(type, callback)
+{
+	var blocks = this.query[type];
+	
+	for(var name in blocks)
+       	callback.call(this, name, blocks[name]);
+};
+
+AQuery.prototype.addQueryComp = function(containerId, type, acomp)
+{
+	var compArray = this.queryComps[containerId];
+	if(!compArray) 
+	{
+		compArray = this.queryComps[containerId] = { 'input':[], 'output':[] };
+	}
+	
+	if(compArray[type].indexOf(acomp) < 0) compArray[type].push(acomp);
+};
+
+AQuery.prototype.removeQueryComp = function(containerId, type, acomp)
+{
+	var compArray = this.queryComps[containerId];
+	if(!compArray) return;
+	
+	var typeArr = compArray[type];
+	for(var i=0; i<typeArr.length; i++)
+	{
+		if(typeArr[i]===acomp)
+		{
+			typeArr.splice(i, 1);
+			return;
+		}
+	}
+};
+
+AQuery.prototype.getQueryComps = function(containerId, type)
+{
+	var comps = this.queryComps[containerId];
+	if(comps) return comps[type];
+	else return null;
+};
+
+/*
+AQuery.prototype.hasQueryDataKey = function(type, blockName, queryData)
+{
+	var block = this.getQueryBlock(type, blockName);
+	var key, len = block.format.length;
+	var blockData = queryData.getBlockData(blockName)[0];
+	
+	for(var i=0; i<len; i++)
+	{
+		key = block.format[i][AQuery.IKEY];
+		if(blockData[key]) return true;
+	}
+	
+	return false;
+};
+*/
+
+//!! 주의 !!
+//이 함수는 자신이 사용하는 fid key 가 있는지만을 체크한다.
+//자신과 관계없는 fid 가 다수 있어도 자신과 관계 있는 fid 가 하나라도 있으면 true 를 리턴한다.
+AQuery.prototype.hasQueryDataKey = function(queryData)
+{
+	var block = this.getQueryBlock('output', 'OutBlock1');
+	var key, len = block.format.length;
+	var blockData = queryData.getBlockData('OutBlock1')[0];
+	
+	for(var i=0; i<len; i++)
+	{
+		key = block.format[i][AQuery.IKEY];
+		if(blockData[key]!=undefined) return true;
+	}
+	
+	return false;
+};
+
+/**
+ * @author asoocool
+ */
+
+
+/*
+//------------------------------
+//	InBlock Data
+this.queryObj = 
+{
+	InBlock1:
+	[
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' }
+	],
+	InBlock2:
+	[
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' },
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' },
+		...
+	],
+	...
+	InBlock2_Occurs:
+	{
+		RowCount: 0,
+		ActionKey: 0x30, //0x30:최초, 0x31:이전, 0x32:다음
+		OffsetData: null,
+		DataLen: 0
+	}
+};
+
+//------------------------------
+//	OutBlock Data
+this.queryObj = 
+{
+	OutBlock1:
+	[
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' }
+	],
+	OutBlock2:
+	[
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' },
+		{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' },
+		...
+	],
+	...
+	OutBlock2_Occurs:
+	{
+		RowCount: 0,
+		Status: 0x40, //0x40:디폴트, 0x01:이전존재, 0x02:다음존재, 0x01|0x02:동시존재
+		OffsetData: null,
+		DataLen: 0
+	}
+};
+*/
+
+//-----------------------------------------------------------------------------------------
+//	AQueryData
+//-----------------------------------------------------------------------------------------
+
+AQueryData = class AQueryData
+{
+    constructor(aquery) 
+    {
+        this.aquery = aquery;
+        this.queryObj = null;
+        
+        this.flagObj = 
+        {
+            //zipFlag: '0',		// 압축 구분 코드 -> 압축X:0 압축:1
+            //encFlag: '0'		// 암호화 구분 코드 -> 평문:0 암호화:1
+        };
+        
+        //연속 구분값
+        this.contiKey = null;
+        
+        this.headerInfo =
+        {
+            /*
+            biz_sys_tcd: null,
+            biz_sys_seq: null,
+            scrn_oprt_tcd: null,
+            ac_pwd_skip_yn: null,
+            media: null,
+            scm_tcd: null			// 스키마구분코드 -> AP서버에서 2개 이상의 DB스키마로 선택 접속해야 할 경우 사용 "4": RK "5": 과기공 (20170717 신규)
+            */
+        };
+        
+        //수신된 queryData 가 리얼인지 조회인지 여부
+        this.isReal = false;
+    }
+}
+
+
+//-------------------------------------------------------------
+//	static area
+//
+
+
+/*
+AQueryData.getDataKeyObj = function(dataKey) 
+{
+	var dataKeyObj = AQueryData.fidValueMap[dataKey];
+	if(!dataKeyObj) 
+	{
+		AQueryData.fidValueMap[dataKey] = dataKeyObj = {};
+		dataKeyObj.key = dataKey;
+	}
+	
+	return dataKeyObj;
+};
+*/
+
+
+//------------------------------------------------------------------
+
+
+AQueryData.prototype.setHeaderInfo = function(headerInfo)
+{
+	for(var p in headerInfo)
+	{
+		if(!headerInfo.hasOwnProperty(p)) continue;
+		
+		this.headerInfo[p] = headerInfo[p];
+	}
+};
+
+AQueryData.prototype.getQueryName = function()
+{
+	if(!this.aquery) return null;
+	else return this.aquery.getName();
+};
+
+AQueryData.prototype.setQuery = function(aquery)
+{
+	this.aquery = aquery;
+};
+
+AQueryData.prototype.getQuery = function()
+{
+	return this.aquery;
+};
+
+//비동기 처리 후 updateComponent 호출을 위한, lazy call 플래그
+//afterOutBlockData 함수에서 enableLazyUpdate 함수를 호출하면 화면 업데이트를 비동기 함수 호출후에 할 수 있다.
+//차후 비동기 함수 콜백에서 queryData.lazyUpdate(); 함수를 호출해 준다. update 할 함수가 동적으로 셋팅되어져 있다.
+AQueryData.prototype.enableLazyUpdate = function()
+{
+	//동적으로 변수 생성
+	this.isLazyUpdate = true;
+};
+
+AQueryData.prototype.getFlag = function(flagName)
+{
+	if(flagName==undefined) return this.flagObj;
+	else return this.flagObj[flagName];
+};
+
+AQueryData.prototype.setFlag = function(flagName, value)
+{
+	this.flagObj[flagName] = value;
+};
+
+AQueryData.prototype.getContiKey = function()
+{
+	return this.contiKey;
+};
+
+AQueryData.prototype.setContiKey = function(contiKey)
+{
+	this.contiKey = contiKey;
+};
+
+AQueryData.prototype.outBlockOccurs = function(block, prevData, abuf)
+{
+	return 1;
+};
+
+AQueryData.prototype.inBlockOccurs = function(block)
+{
+	return 1;
+};
+
+//복수개의 데이터일 때 버퍼에 길이 세팅하는 함수
+AQueryData.prototype.inBlockBufferOccurs = function(block, blockData, abuf)
+{
+    //if(block.occurs) abuf.addNumString(block.occurs, blockData.length);
+};
+
+//------------------------------------------------
+
+
+//OutBlock Buffer to QueryData
+AQueryData.prototype.outBlockData = function(abuf, offset)
+{
+	if(window.ABuffer && abuf instanceof ABuffer)
+	{
+		if(!this.queryObj) this.queryObj = {};
+		
+		if(offset!=undefined) abuf.setOffset(offset);
+
+		var blockData, count, i, j, fmtLen, obj = null, fmt, thisObj = this, cntBlock;
+		var types = ['output'];	// inblock 영역은 수신받지 않기 때문에 outblock 부분만 처리
+
+		for(var h=0; h<types.length; h++)
+		{
+			this.aquery.eachQueryBlock(types[h], function(name, block)
+			{
+				blockData = thisObj.queryObj[name] = [];
+
+				count = thisObj.outBlockOccurs(block, obj, abuf);
+
+				fmtLen = block.format.length;
+
+				for(i=0; i<count; i++)
+				{
+					obj = new Object();
+
+					for(j=0; j<fmtLen; j++)
+					{
+						//[로그인구분,D1로그인구분,0,LoginTp,STRING,1,0]
+						fmt = block.format[j];
+
+						thisObj.extractFieldData(abuf, obj, blockData, fmt);
+					}
+
+					blockData.push(obj);
+				}
+			});
+		}
+	}
+	else
+	{
+		this.setQueryObj(abuf.body);
+		//return false 반환시 QueryManager에서 queryData null 처리한다.
+// 		if(abuf.body) this.setQueryObj(abuf.body);
+// 		else return false;
+	}
+};
+
+AQueryData.prototype.extractFieldData = function(abuf, obj, blockData, fmt)
+{
+	if(fmt[AQuery.ITYPE]==AQuery.STRING) obj[fmt[AQuery.IKEY]] = abuf.nextString(fmt[AQuery.ISIZE]);
+	else 
+	{
+		//asoocool dblTostr
+		//double 형이지만 문자열로 리턴받기를 원할 경우
+		if(this.dblTostr) 
+		{
+			//3333.2222 , 3344232
+			var tmp = abuf.nextString(fmt[AQuery.ISIZE]).split('.');
+
+			tmp[0] = parseInt(tmp[0], 10);
+
+			if(tmp.length>1) tmp = tmp[0] + '.' + tmp[1];
+			else tmp = tmp[0].toString();
+
+			obj[fmt[AQuery.IKEY]] = tmp;
+		}
+		else
+		{
+			var exp = fmt[AQuery.IEXP];
+
+			if(exp>0) obj[fmt[AQuery.IKEY]] = abuf.nextParseFloat(fmt[AQuery.ISIZE]).toFixed(exp);
+			else obj[fmt[AQuery.IKEY]] = abuf.nextParseFloat(fmt[AQuery.ISIZE]);
+		}
+	}
+	
+	//필드에서 데이터를 뽑아내고 나서
+	//각 필드데이터 뒷부분에 특정값이 들어가있어 처리가 필요한 경우 
+	//obj[fmt[AQuery.IKEY]+'_attr'] = abuf.nextByte();
+};
+
+AQueryData.prototype.inBlockPrepare = function()
+{
+	this.queryObj = {};
+	
+	var blockData, count, i, j, fmtLen, obj, fmt, thisObj = this;
+	this.aquery.eachQueryBlock('input', function(name, inblock)
+	{
+		blockData = thisObj.queryObj[name] = [];
+
+		count = thisObj.inBlockOccurs(inblock);
+		
+		fmtLen = inblock.format.length;
+
+		for(i=0; i<count; i++)
+		{
+			obj = new Object();
+			
+			for(j=0; j<fmtLen; j++)
+			{
+				//[현재가,D1현재가,15001,,ULONG,4,-2]
+				//D1현재가 == AQuery.IKEY
+				fmt = inblock.format[j];
+				obj[fmt[AQuery.IKEY]] = fmt[AQuery.IVALUE];
+			}
+			
+			blockData.push(obj);
+		}
+	});
+};
+
+
+//QueryData to InBlock Buffer
+AQueryData.prototype.inBlockBuffer = function(abuf, offset)
+{
+	if(window.ABuffer && abuf instanceof ABuffer)
+	{
+		var blockData, i, j, fmtLen, fmt, value, thisObj = this, exp, type, fldKey, fldSize, obj;
+
+		abuf.fillBuffer(0x00, offset);
+		abuf.setOffset(offset);
+
+		this.aquery.eachQueryBlock('input', function(name, block)
+		{
+			//[ { MENU_CHCK_CODE: '1500', USER_ID: 'z0622' }, ... ]
+			blockData = thisObj.queryObj[name];
+
+			fmtLen = block.format.length;
+
+            thisObj.inBlockBufferOccurs(block, blockData, abuf);
+
+			for(i=0; i<blockData.length; i++)
+			{
+				//{ MENU_CHCK_CODE: '1500', USER_ID: 'z0622' }
+				obj = blockData[i];
+
+				for(j=0; j<fmtLen; j++)
+				{
+					//[로그인구분,D1로그인구분,0,LoginTp,STRING,1,0]
+					fmt = block.format[j];
+
+					fldKey = fmt[AQuery.IKEY];
+					fldSize = fmt[AQuery.ISIZE];
+
+					value = obj[fldKey];
+					type = fmt[AQuery.ITYPE];
+
+					if(type==AQuery.STRING) abuf.addString(fldSize, value);
+					else if(type==AQuery.BINARY) abuf.addBinary(fldSize, value);
+					else 
+					{
+						exp = fmt[AQuery.IEXP];
+
+						if(exp>0) abuf.addNumString(fldSize, parseFloat(value).toFixed(exp));
+						else abuf.addNumString(fldSize, value);
+					}
+
+					thisObj.setFieldAttr(abuf, obj, blockData, fmt);
+				}
+			}
+		});
+	}
+	else
+	{
+		abuf.body = this.getQueryObj();
+	}
+};
+
+AQueryData.prototype.setFieldAttr = function(abuf, obj, blockData, fmt)
+{
+	//필드의 데이터를 버퍼에 넣고나서
+	//각 필드데이터 뒷부분에 특정값을 넣거나 오프셋을 이동 처리해야하는 경우
+	//abuf.addOffset(1);
+};
+
+AQueryData.prototype.getQueryObj = function()
+{
+	return this.queryObj;
+};
+
+AQueryData.prototype.setQueryObj = function(queryObj)
+{
+	this.queryObj = queryObj;
+};
+
+AQueryData.prototype.getBlockData = function(blockName)
+{
+	return this.queryObj[blockName];
+};
+
+AQueryData.prototype.searchBlockData = function(blockName)
+{
+	var resultObj = new Object();
+	
+	if(!blockName) blockName = 'Block';
+	
+	for(var key in this.queryObj)
+	{
+		if(key.indexOf(blockName) > -1)
+			resultObj[key] = this.queryObj[key];
+	}
+	return resultObj;
+};
+
+AQueryData.prototype.printQueryData = function()
+{
+	afc.log('[' + this.getQueryName() + '] AQueryData : ==================================');
+	//afc.log(JSON.stringify(this.queryObj, undefined, 2));
+	return afc.log(this.queryObj);
+};
+
+AQueryData.prototype.getRealType = function(comp)
+{
+    let realType = this.aquery.getRealType();
+    if(realType == undefined) realType = comp.updateType;
+    return realType;
+}
+/**
+ * @author asoocool
+ */
+
+QueryManager = class QueryManager
+{
+    constructor(name)
+    {
+        this.name = name;			//매니저를 구분 짓는 이름
+        this.netIo = null;			//io 전송 방식에 따른 객체 저장
+        
+        this.sndBuf = null;			//전송용 ABuffer 객체
+        this.rcvBuf = null;			//수신용 ABuffer 객체
+        this.queryListeners = [];	//IO 이벤트를 수신할 객체들을 모아둔 배열
+        this.realComps = {};		//리얼 데이터를 수신할 컴포넌트 모음
+
+        //초기화	
+        this.headerInfo = null;
+        this.setHeaderInfo();
+        
+        this.errorData = 
+        {
+            trName: '',
+            errCode: '',	//메시지코드/오류코드
+            errMsg: ''		//에러 메시지
+        };
+
+        //수신 패킷 정보
+        this.packetInfo = 
+        {
+            packetType: 0,
+            packetId: 0, 
+            menuNo: '', 
+            groupName: '', 
+            trName: ''
+        };
+        
+        //전송 패킷 정보
+        this.sendInfo = 
+        {
+            packetType: 0,
+            packetId: 0, 
+            menuNo: '', 
+            groupName: '', 
+            trName: ''
+        };
+        
+        
+        this.publicKey = null;
+        this.sessionKey = null;
+        
+        this.packetId = 0;
+        
+        this.isShowProgress = true;
+        this.isVisibleUpdate = true;	//보여질 경우만 데이터를 업데이트를 하는 옵션
+        this.timeoutSec = 15; //zero is unlimit
+        
+        this.errCodeMap = {};
+        this.queryCallbacks = {};
+        this.realProcMap = {};
+    }
+
+}
+
+QueryManager.prototype.startManager = function(address, port)
+{
+	if(this.netIo) this.netIo.startIO(address, port);
+};
+
+QueryManager.prototype.stopManager = function()
+{
+	if(this.netIo) this.netIo.stopIO();
+};
+
+QueryManager.prototype.setNetworkIo = function(netIo)
+{
+	this.netIo = netIo;
+};
+
+QueryManager.prototype.setQueryCallback = function(key, callback)
+{
+	this.queryCallbacks[key] = callback;
+};
+
+QueryManager.prototype.getQueryCallback = function(key)
+{
+	var callback = this.queryCallbacks[key];
+	if(callback) 
+	{
+		if(callback.timeout) 
+		{
+			clearTimeout(callback.timeout);
+			callback.timeout = null;
+		}
+	
+		if(!callback.noDelete) delete this.queryCallbacks[key];
+	}
+	
+	return callback;
+};
+
+QueryManager.prototype.clearAllQueryCallback = function()
+{
+	var callback, key;
+	for(key in this.queryCallbacks)
+	{
+		callback = this.queryCallbacks[key];
+		
+		if(callback.timeout) 
+		{
+			clearTimeout(callback.timeout);
+			callback.timeout = null;
+		}
+	}
+
+	this.queryCallbacks = {};
+};
+
+QueryManager.prototype.clearAllRealComps = function()
+{
+	this.realComps = {};
+};
+
+QueryManager.prototype.setQueryBuffer = function(sendSize, recvSize, charSet, emptyChar, emptyNumChar)
+{
+	this.sndBuf = new ABuffer(sendSize);
+	this.sndBuf.setCharset(charSet);
+	
+	this.rcvBuf = new ABuffer(recvSize);
+	this.rcvBuf.setCharset(charSet);
+	
+	if(emptyChar!=undefined && emptyChar!=null)  
+	{
+		this.sndBuf.setEmptyChar(emptyChar);
+		this.rcvBuf.setEmptyChar(emptyChar);
+	}
+	
+	if(emptyNumChar!=undefined && emptyNumChar!=null) 
+	{
+		this.sndBuf.setEmptyNumChar(emptyNumChar);
+		this.rcvBuf.setEmptyNumChar(emptyNumChar);
+	}
+};
+
+QueryManager.prototype.showProgress = function(isShow)
+{
+	this.isShowProgress = isShow;
+};
+
+
+//second
+QueryManager.prototype.setTimeout = function(timeoutSec)
+{
+	this.timeoutSec = timeoutSec;
+};
+
+QueryManager.prototype.getLastError = function(key)
+{
+	if(key) return this.errorData[key];
+	else return this.errorData;
+};
+
+QueryManager.prototype.getLastPacketInfo = function(key)
+{
+	if(key) return this.packetInfo[key];
+	else return this.packetInfo;
+};
+
+QueryManager.prototype.printLastError = function(key)
+{
+	if(key) return afc.log(key + ':' + this.errorData[key]);
+	else return afc.log(JSON.stringify(this.errorData, undefined, 2));
+};
+
+//---------------------------------------------------------
+//	listener functions
+//	function afterRecvBufferData(QueryManager);				* 수신버퍼에 데이터를 수신한 후 바로 호출된다.
+//	function afterOutBlockData(queryData, QueryManager);	* 수신된 데이터를 AQueryData 에 채운 후 호출된다.
+//	function beforeInBlockBuffer(queryData, groupName);		* 전송버퍼에 데이터를 채우기 전에 호출된다.
+//	function beforeSendBufferData(QueryManager);			* 전송버퍼의 데이터를 전송하기 바로 전에 호출된다.
+
+//화면 아이디  기준
+QueryManager.prototype.addQueryListener = function(listener)//function(name, listener)
+{
+	for(var i=0; i<this.queryListeners.length; i++)
+		if(this.queryListeners[i]===listener) return;
+	
+	this.queryListeners.push(listener);
+};
+
+QueryManager.prototype.removeQueryListener = function(listener)//function(name)
+{
+	for(var i=0; i<this.queryListeners.length; i++)
+	{
+		if(this.queryListeners[i]===listener)
+		{
+			this.queryListeners.splice(i, 1);
+			return;
+		}
+	}
+	
+};
+
+//리얼 수신용 컴포넌트 등록
+QueryManager.prototype.addRealComp = function(dataKey, comp)
+{
+	var array = this.realComps[dataKey];
+	if(!array) array = this.realComps[dataKey] = [];
+	
+	for(var i=0; i<array.length; i++)
+	{
+		if(array[i]===comp) return -1;
+	}
+	
+	//if(!comp.realDataKeyArr) comp.realDataKeyArr = [];
+	
+	//자신이 속한 리얼에 대한 dataKey 값들을 저장해 둔다.
+	//comp.realDataKeyArr.push(dataKey);
+	
+	array.push(comp);
+	return array.length;
+};
+
+QueryManager.prototype.removeRealComp = function(dataKey, comp)
+{
+	var array = this.realComps[dataKey];
+	if(!array) return -1;
+	
+	for(var i=0; i<array.length; i++)
+	{
+		if(array[i]===comp)
+		{
+			/*
+			//리얼에 대한 dataKey remove
+			for(var j=0; j<comp.realDataKeyArr.length; j++)
+			{
+				if(comp.realDataKeyArr[j]==dataKey)
+				{
+					comp.realDataKeyArr.splice(j, 1);
+					break;
+				}
+			}
+			*/
+			
+			array.splice(i, 1);
+			if(array.length==0) delete this.realComps[dataKey];
+			
+			return array.length;
+		}
+	}
+	
+	return -1;
+};
+
+//return : array
+QueryManager.prototype.getRealComps = function(dataKey)
+{
+	return this.realComps[dataKey];
+};
+
+//keyArr = [ KR004LTC__USD__, KR004LTC__USD__,  ... ], 
+//이것은 서버에게, 설정한 키값과 관련된 값이 변경되면 리얼을 전송해 달라고 요청하기 위한 값이다.
+//서버에서는 키값과 관련되어져 있는 값이 변경되면 리얼을 내려준다. 사용하지 않으면 [''], realDataToComp 호출 시 key 값을 '' 로 넣어줌.
+//compArr = [acomp, acomp, ...]
+//updateTypes : updateType or [updateType, updateType, ... ] (updateType: -1/prepend, 0/update, 1/append)
+QueryManager.prototype.registerReal = async function(aquery, realField, keyArr, compArr, updateTypes, callback, afterUpdate)
+{
+	var i, j, regArr = [], comp, dataKey;
+		
+	if(typeof(aquery)=='string') aquery = await AQuery.getSafeQuery(aquery);
+	
+	//문자열이면 컨테이너 아이디가 들어오고 
+	//현재 컨테이너에서 aquery(리얼TR) 로 매핑되어져 있는 모든 컴포넌트를 얻어서 등록한다.
+	if(typeof(compArr)=='string') compArr = aquery.getQueryComps(compArr, 'output');
+	
+	if(!compArr) return;
+
+	for(i=0; i<keyArr.length; i++)
+	{
+		dataKey = aquery.getName() + keyArr[i];
+		
+		for(j=0; j<compArr.length; j++)
+		{
+			//특정 키에 대해 등록되어져 있는 컴포넌트 개수를 리턴. 즉, 최초로 등록하는 경우만 전송 정보로 셋팅한다.
+			if(this.addRealComp(dataKey, compArr[j]) == 1)
+			{
+				regArr.push(keyArr[i]);
+			}
+		}
+
+		if(callback || afterUpdate)
+		{
+			//같은 키로 여러 컴포넌트에 realCallback 함수를 셋팅하면 리얼 수신시 
+			//같은 callback 함수가 여러번 호출되므로 첫번째 컴포넌트에만 함수를 셋팅한다.
+
+			if(compArr.length>0)
+			{
+				comp = compArr[0];
+
+				if(!comp.realCallbacks) comp.realCallbacks = {};
+
+				comp.realCallbacks[dataKey] = { cb: callback, au: afterUpdate };
+			}
+		}
+	}
+	
+	//var comp, block = aquery.getQueryBlock('input', 'InBlock1'),
+	//	realKey = block.format[0][AQuery.IKEY];
+	
+	//asoocool 2019/4/19
+	//복수의 realType 을 지정하기 위해 AQuery 쪽으로 옮김
+	//기존 코드도 작동하도록 함. 차후에 제거
+
+	var realType = aquery.getRealType(), updateType;
+	if(realType!=undefined) updateTypes = realType;
+	if(!updateTypes) updateTypes = 0;
+	
+	if(typeof(updateTypes) != 'object') updateTypes = new Array(compArr.length).fill(updateTypes);
+	if(updateTypes.length != compArr.length) throw new Error('Different length of updateTypes and compArr');
+
+	//set updateType to component
+	for(j=0; j<compArr.length; j++)
+	{
+		comp = compArr[j];
+		updateType = updateTypes[j];
+		comp.setUpdateType(updateType);
+
+		if(updateType==0 || updateType==2) 
+		{
+			//comp.updateType = 0;
+
+			// setRealMap을 직접 호출하고 나중에 리얼을 등록하고 싶은 경우를 위해 수정
+			// 1. setRealMap(realField)
+			// 2. 조회1 수신후 조회2 호출 .... 조회N-1 수신후 조회N 호출
+			// 3. 조회N 수신 후 리얼등록(realField값 null로 세팅)
+			if(comp.setRealMap && realField) comp.setRealMap(realField);	//그리드 같은 컴포넌트는 realMap 이 존재한다.
+		}
+		//else comp.updateType = updateType;
+	}
+	
+	
+	//새롭게 등록할 정보가 있으면
+	if(regArr.length>0)
+		this.sendRealSet(aquery, true, regArr);
+};
+
+QueryManager.prototype.unregisterReal = async function(aquery, keyArr, compArr)
+{
+	var i, j, regArr = [], comp, dataKey;
+	
+	if(typeof(aquery)=='string') aquery = AQuery.getQuery(aquery);
+	
+	//문자열이면 컨테이너 아이디가 들어오고 매핑되어져 있는 컴포넌트를 얻어서 등록한다.
+	if(typeof(compArr)=='string') compArr = await aquery.getQueryComps(compArr, 'output');
+	
+	if(!compArr) return;
+	
+	for(i=0; i<keyArr.length; i++)
+	{
+		dataKey = aquery.getName() + keyArr[i];
+	
+		for(j=0; j<compArr.length; j++)
+		{
+			comp = compArr[j];
+
+			//특정 키에 대해 모든 컴포넌트의 등록이 해제되면 전송 정보로 셋팅한다.
+			if(this.removeRealComp(dataKey, comp) == 0)
+			{
+				regArr.push(keyArr[i]);
+			}
+
+			//파람으로 넘어온 compArr 의 순서가 reg 시점과 똑같다고 보장할 수 없으므로, 모든 컴포넌트의 realCallback 변수를 삭제한다.
+			if(comp.realCallbacks) 
+			{
+				delete comp.realCallbacks[dataKey];
+
+				if(Object.keys(comp.realCallbacks).length==0) comp.realCallbacks = undefined;
+			}
+		}
+	}
+	
+	//set updateType to component
+	for(j=0; j<compArr.length; j++)
+	{
+		comp = compArr[j];
+		comp.updateType = undefined;
+
+		if(comp.setRealMap) comp.setRealMap(null);
+	}
+	
+	//새롭게 해제할 정보가 있으면
+	if(regArr.length>0)
+		this.sendRealSet(aquery, false, regArr);
+};
+
+QueryManager.prototype.getHeaderInfo = function(headerKey)
+{
+	if(headerKey) return this.headerInfo[headerKey];
+	else return this.headerInfo;
+};
+
+QueryManager.prototype.setHeaderInfo = function(headerInfo)
+{
+	if(headerInfo)
+	{
+		for(var p in headerInfo)
+		{
+			if(!headerInfo.hasOwnProperty(p)) continue;
+			this.headerInfo[p] = headerInfo[p];
+		}
+	}
+	//파라미터가 null 인 경우 초기화
+	else
+	{
+		this.headerInfo = 
+		{
+			PBLC_IP_ADDR		: '',	// 공인 IP		//10.110.51.182
+			PRVT_IP_ADDR		: '',	// 사설 IP		//10.110.51.182
+			MAC_ADR				: '',	// Mac 주소		//6C626D3A60C9
+			TMNL_OS_TCD			: 'PC',	// 단말 OS 구분 코드 MS Win:"PC" MAC:"MC" AND:"AP" IPHONE:"IP" IPAD:"ID" AND PAD:"AD" 기타:"ZZ"
+			TMNL_OS_VER			: '',	// 단말 OS 버전
+			TMNL_BROW_TCD		: '',	// 단말 브라우저 구분 코드 익스플로러:"IE" 사파리:"SF" 파이어폭스:"FX" 크롬:"CR" 오페라:"OP" WEBKIT:"WK" 기타:"ZZ"
+			TMNL_BROW_VER		: ''	// 단말 브라우저 버전
+		};
+	}
+};
+
+QueryManager.prototype.onConnected = function(success)
+{
+	//afc.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ QueryManager.prototype.onConnected');
+};
+
+QueryManager.prototype.onClosed = function()
+{
+	//afc.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ QueryManager.prototype.onClosed');
+	this.clearAllQueryCallback();
+	this.clearAllRealComps();
+	
+	// TODO: 재접속 처리 로직 
+// 	if(!this.selfClose && !theApp.isPause)
+// 		theApp.autoLoginProcess('재접속중입니다...');
+};
+
+//############################################################################################################################################
+// 상속받아 오버라이드 해야하는 함수들
+
+
+//상속 받아 다음과 같은 패턴으로 구현한다.
+QueryManager.prototype.onReceived = function(data, size)
+{
+	//----------------------------------------------------
+	
+	//	1. this.rcvBuf 를 생성한다. 생성방법은 상황에 따라 다름.
+	//	this.rcvBuf.setBuffer(data);
+	//	this.rcvBuf.setDataSize(size);
+	
+	//	2. 패킷 타입과 패킷 아이디를 셋팅한다.
+	//	this.packetInfo.packetType = this.rcvBuf.getByte(OS_COMM_CMD);
+	//	this.packetInfo.packetId = this.rcvBuf.getByte(OS_COMM_ID);
+
+	//	3. 패킷 타입에 따라 처리 함수를 분기한다.
+	//	switch(this.packetInfo.packetType)
+	//	{
+	//		case 1: this.queryProcess(); break;
+	//		case 2: this.realProcess(); break;
+	//	}
+	
+	//----------------------------------------------------
+};
+
+//전송헤더 이후의 데이터 셋팅 오프셋을 리턴한다.
+QueryManager.prototype.getInDataOffset = function(aquery, queryData)
+{
+	return 0;
+};
+
+//수신헤더 이후의 데이터 셋팅 오프셋을 리턴한다.
+QueryManager.prototype.getOutDataOffset = function(aquery)
+{
+	return 0;
+};
+
+//리얼 헤더 이후의 데이터 셋팅 오프셋을 리턴한다.
+QueryManager.prototype.getRealDataOffset = function(aquery)
+{
+	return 0;
+};
+
+//	리얼 전문의 queryName 을 얻어 리턴한다.
+//	recvObj 는 json 형식 수신시 셋팅된다.
+QueryManager.prototype.getRealQueryName = function()
+{
+	//ex)
+	//	return this.rcvBuf.nextOriString(4);
+	//	return this.recvObj.header.query_name;
+	
+	return '';
+};
+
+QueryManager.prototype.getRealKey = function(queryData)
+{
+	
+	return '';
+};
+
+
+
+//사용할 AQueryData(또는 상속받은 클래스) 객체를 생성하여 리턴한다.
+QueryManager.prototype.makeQueryData = function(aquery, isSend)
+{
+	return new AQueryData(aquery, this);
+};
+
+//리얼 등록/해제 패킷 전송 함수... 재정의 하기, unregisterReal 함수 내에서 호출함
+QueryManager.prototype.sendRealSet = function(aquery, isSet, regArr)
+{
+
+};
+
+//서버에 데이터를 송신하기 전에 호출되어 헤더 정보를 세팅한다.
+QueryManager.prototype.makeHeader = function(queryData, abuf, menuNo)
+{
+	// abuf 객체의 메서드들을 이용하고 패킷아이디를 리턴한다.
+	return this.makePacketId();
+};
+
+// 데이터 수신시 에러정보를 세팅하는 함수
+QueryManager.prototype.setErrorData = function()
+{
+	//----------------------------------------------------
+	
+	//	* rcvBuf에서 에러데이터에 해당하는 정보를 뽑아 저장한다.
+	//	this.errorData.errCode = this.rcvBuf.getString(OS_ERR_CODE, SZ_ERR_CODE);
+	//	this.errorData.errMsg = this.rcvBuf.getString(OS_ERR_MSG, SZ_ERR_MSG);
+	//		...
+	//		etc
+	//----------------------------------------------------
+};
+
+// 타임아웃시 에러정보를 세팅하는 함수
+QueryManager.prototype.setTimeoutErrorData = function(trName, menuNo, groupName)
+{
+	// 파라미터로 넘어온 값을 사용하거나 원하는 코드 및 메시지로 표현한다.
+	this.errorData.trName = trName;
+	this.errorData.errCode = 10001;
+	this.errorData.errMsg = '통신 상태가 원활하지 않습니다. : ' + trName + ',' + menuNo + ',' + groupName;
+	//this.errorData.errMsg = '서버와의 접속이 지연되고 있습니다.';
+};
+
+//타입에 따라 전송을 다르게 처리하는 함수
+//비동기 처리 이후 전송해야하는 경우 상속받아 전송전 비동기처리 후 자체 전송한다.
+QueryManager.prototype.sendByType = function(obj)
+{
+	if(this.netIo.sorimachiSend)
+	{
+		obj.sendLen = obj.sndBuf.getDataSize();
+		this.netIo.sorimachiSend(obj);
+	}
+	else if(obj.sndBuf) this.sendBufferData( obj.sndBuf.subDataArray() );
+	else this.sendBufferData(JSON.stringify(obj.sendObj));
+	
+// 	----------------------------------------------------
+	
+// 	비동기 처리를 하는 경우 전송버퍼에 들어있는 데이터가 달라지므로 따로 저장해놓는다.
+// 	var buf = obj.sndBuf;
+// 	var sndArr = buf.subDataArray();
+// 	if(obj.queryData.isSign())
+// 	{
+// 		var thisObj = this;
+// 		var signOffset = OS_DATA; 
+// 		var signData = buf.getString(signOffset, obj.packetSize - signOffset);
+// 		var certData = theApp.getChiperData(theApp.certCiperKey);
+// 		NativeSign(theApp.cert_DN, certData[0], certData[1], signData, function(sign)
+// 		{
+// 			비동기처리이후에 데이터를 가공하여 전송한다.
+//
+// 			buf.copyBuffer(sndArr, 0);
+// 			buf.setOriString(sndArr.length, sign.length, sign);
+// 			obj.packetSize = buf.getOffset()-5;
+// 			buf.setNumString(0, 5, obj.packetSize);
+// 			buf.setDataSize(obj.packetSize);
+// 			thisObj.sendBufferData( buf.subDataArray );//super.sendByType(obj);
+// 		});
+// 	}
+// 	else this.sendBufferData( sndArr );//super.sendByType(obj);
+	
+// 	----------------------------------------------------
+
+};
+
+
+// 여기까지 
+//############################################################################################################################################
+
+
+
+//asoocool dblTostr
+QueryManager.prototype.enableDTS = function()
+{
+	this.dblTostr = true;
+};
+
+//	onReceive 함수 내에서 패킷 타입에 따라 분기하여 호출되는 함수
+//	recvObj 는 json 형식 수신시 셋팅된다.
+QueryManager.prototype.realProcess = function(recvObj)
+{
+	//----------------------------------------------------
+	
+	//	1. 쿼리 네임을 얻어 queryData 를 생성한다.
+	//	var qryName = this.rcvBuf.nextOriString(4),
+	//		aquery = AQuery.getQuery(qryName),
+	//		queryData = this.makeQueryData(aquery);
+	
+	//	2. queryData 객체에 값을 채우고 dataKey 값을 구한 후
+	//	queryData.outBlockData(this.rcvBuf, offset);
+		
+	//	3. realDataToComp 함수를 호출한다.
+	
+	//----------------------------------------------------
+	
+	if(recvObj) this.recvObj = recvObj;	
+	
+	var qryName = this.getRealQueryName(),
+		aquery = AQuery.getQuery(qryName), 
+		queryData = null, realKey = '';
+	
+	if(recvObj)
+	{
+		queryData = this.makeQueryData(aquery);
+		
+		queryData.outBlockData(this.recvObj);
+	}
+	else //if(this.rcvBuf)
+	{
+		var dataSize = this.rcvBuf.getDataSize(),
+			dataOffset = this.getRealDataOffset(aquery);
+		
+		//body data 가 있는 경우만
+		if(dataSize>dataOffset)
+		{
+			queryData = this.makeQueryData(aquery);
+			
+			//queryData 객체에 전문데이터를 세팅
+			queryData.outBlockData(this.rcvBuf, dataOffset);
+		}
+	}
+	
+	if(queryData) 
+	{
+		realKey = this.getRealKey(queryData);
+		
+		this.realDataToComp(realKey, queryData);
+	}
+
+};
+
+//	전문 수신 후 프로세스
+//	recvObj 는 json 형식 수신시 넘어온다.
+QueryManager.prototype.queryProcess = async function(recvObj)
+{
+//##########################################	
+	if(this.isShowProgress) AIndicator.hide();
+//##########################################
+
+	//var dataSize = this.rcvBuf.getDataSize(),
+	//	cbObj = this.getQueryCallback(this.packetInfo.packetId);
+	
+	var cbObj = null, dataSize = 0, thisObj = this, cbRet;
+	
+	if(recvObj) this.recvObj = recvObj;
+	else dataSize = this.rcvBuf.getDataSize();
+	//else if(this.rcvBuf) dataSize = this.rcvBuf.getDataSize();
+		
+	cbObj = this.getQueryCallback(this.packetInfo.packetId);
+	
+	// 타임아웃 발생시 콜백객체를 제거하므로 체크
+	if(!cbObj) return;
+
+	//패킷 정보 셋팅
+	this.packetInfo.menuNo = cbObj.menuNo;
+	this.packetInfo.groupName = cbObj.groupName;
+	this.packetInfo.trName = cbObj.trName;
+
+	//에러 메시지 셋팅
+	this.errorData.trName = cbObj.trName;
+	this.errorData.errCode = '';
+	this.errorData.errMsg = '';
+	this.setErrorData(recvObj);
+	
+
+	//수신된 전문 로그 남기는 함수, 개발시에만 호출
+	//this.recv_log_helper();
+	
+	var listener, i, qLen = this.queryListeners.length;
+
+	//버퍼에 데이터를 수신한 후 바로 호출된다.
+	//######## afterRecvBufferData
+	for(i=0; i<qLen; i++)
+	{
+		listener = this.queryListeners[i];
+		if(listener.afterRecvBufferData) listener.afterRecvBufferData(this);
+	}
+	//########
+
+	var queryData = null,
+		aquery = AQuery.getQuery(cbObj.trName);
+
+	if(!aquery)
+	{
+		if(this.isShowProgress) AIndicator.hide();
+
+		alert('onReceive : ' + cbObj.trName + ' query is not found.');
+		return;
+	}
+	
+	if(recvObj)
+	{
+		queryData = this.makeQueryData(aquery);
+		
+		//outBlockData return false 인 경우 queryData null 처리
+		if(queryData.outBlockData(recvObj) == false)
+		{
+			queryData = null;
+		}
+	}
+	else //if(this.rcvBuf)
+	{
+		var dataOffset = this.getOutDataOffset(aquery);
+
+		//body data 가 있는 경우만
+		if(dataSize>dataOffset)
+		{
+			queryData = this.makeQueryData(aquery);
+
+			//asoocool dblTostr
+			queryData.dblTostr = cbObj.dblTostr;
+
+			//queryData 객체에 전문데이터를 세팅
+			queryData.outBlockData(this.rcvBuf, dataOffset);
+		}
+	}
+	
+
+	//타임 아웃 이후에 패킷이 도착하거나 
+	//계정계 지연 패킷이 올수 있으므로 콜백 객체가 없어도 계속 진행한다.
+	//계정계 지연 패킷은 listener 의 afterOutBlockData 함수에서만 구현 가능한다.
+	if(cbObj && cbObj.func) cbRet = await cbObj.func.call(this, queryData);
+
+	//수신된 데이터를 AQueryData 에 채운 후 호출된다.
+	//######## afterOutBlockData
+	for(i=0; i<qLen; i++)
+	{
+		listener = this.queryListeners[i];
+		if(listener.afterOutBlockData) listener.afterOutBlockData(queryData, this);
+	}
+	//########
+
+	if(queryData && (cbRet != false))
+	{
+		//afterOutBlockData 함수에서 AQueryData 의 enableLazyUpdate 함수를 호출하면 화면 업데이트를 비동기 함수 호출후에 할 수 있다.
+		//차후 비동기 함수 콜백에서 queryData.lazyUpdate(); 함수를 호출해 준다.
+		
+		if(queryData.isLazyUpdate) queryData.lazyUpdate = _updateFunc;
+		else _updateFunc();
+	}
+	
+	//-----
+	
+	function _updateFunc()
+	{
+		var compArray = aquery.getQueryComps(cbObj.menuNo, 'output');
+		
+		if(compArray)
+		{
+			var qryComp, item;
+			for(var i=0; i<compArray.length; i++)
+			{
+				qryComp = compArray[i];
+				
+				//asoocool, 컴포넌트 유효성 검사
+				if(!qryComp.isValid()) continue;
+
+				//비활성화된 탭은 적용되지 않도록
+				//var tab = qryComp.getRootView().tab;
+				//if(tab && $(tab.content).is(':hidden')) continue;
+				
+				if(thisObj.isVisibleUpdate)
+				{
+					//비활성화된 view 는 적용되지 않도록
+					item = qryComp.getRootView()._item;
+					//if(item && $(item).is(':hidden')) continue;
+					if(item && item.style.display == 'none') continue;
+				}
+
+				//groupName 을 지정해 줬으면 같은 그룹네임인지 비교
+				if( cbObj.groupName && cbObj.groupName!=qryComp.getGroupName() ) continue;
+
+				qryComp.updateComponent(queryData);
+			}
+			
+			if(cbObj && cbObj.ucfunc) cbObj.ucfunc.call(thisObj, queryData);
+		}
+	}
+	
+//##########################################	
+	//if(this.isShowProgress) AIndicator.hide();
+//##########################################
+	
+};
+
+//option {
+//	lazyQuerys: ['tr001', 'tr002'], 	//지정한 리얼 쿼리만 lazyUpdate 를 수행한다. 지정하지 않으면 전체
+//	lazyComponents: [ comp1, comp2 ]	//지정한 컴포넌트만 lazyUpdate 를 수행한다.
+//}
+QueryManager.prototype.enableLazyUpdate = function(enable, option)
+{
+	if(enable) 
+	{
+		this.lazyQueryData = {};
+		
+		if(option)
+		{
+			if(option.lazyQuerys)
+			{ 
+				this.lazyQueryMap = {};
+
+				for(var i=0; i<option.lazyQuerys.length; i++)
+					this.lazyQueryMap[option.lazyQuerys[i]] = true;
+			}
+
+			if(option.lazyComponents)
+			{
+				this.lazyComponents = option.lazyComponents;
+				
+				this.lazyComponents.forEach(function(comp)
+				{
+					comp.isLazyUpdate = true;
+				});
+			}
+		}
+	}
+	else 
+	{
+		this.lazyQueryData = null;
+		this.lazyQueryMap = null;
+		
+		if(this.lazyComponents)
+		{
+			this.lazyComponents.forEach(function(comp)
+			{
+				comp.isLazyUpdate = undefined;
+			});
+			
+			this.lazyComponents = null;
+		}
+	}
+};
+
+QueryManager.prototype.updateLazyData = function(disableAfterUpdate)
+{
+	if(this.lazyQueryData)
+	{
+		var arr, isLazyCompUpdate = Boolean(this.lazyComponents);
+		
+		for(var dataKey in this.lazyQueryData)
+		{
+			arr = this.lazyQueryData[dataKey];
+			
+			for(var i=0; i<arr.length; i++)
+			{
+				this._updateRealComps(dataKey, arr[i], isLazyCompUpdate);
+			}
+		}
+
+		this.enableLazyUpdate(!disableAfterUpdate);
+	}
+};
+
+//realProcess 함수에서 호출한다.
+QueryManager.prototype.realDataToComp = function(key, queryData)
+{
+	var dataKey = queryData.getQueryName() + key;
+	
+	if(this.lazyQueryData)
+	{
+		//lazyQueryMap 을 지정하지 않았으면 쿼리 전체를 백업
+		//지정한 경우는 지정된 쿼리만 백업
+		if(!this.lazyQueryMap || this.lazyQueryMap[queryData.getQueryName()])
+		{
+			var arr = this.lazyQueryData[dataKey];
+
+			if(!arr) 
+			{
+				this.lazyQueryData[dataKey] = arr = [];
+			}
+
+			var realType = queryData.getRealType();
+
+			//update, realType==0 or realType==undefined
+			if(!realType)
+			{
+				arr[0] = queryData;
+			}
+			else arr.push(queryData);
+		
+			//lazyComponents 를 지정했으면 업데이트 시점에 비교해야 하므로 
+			//_updateRealComps 가 호출되도록 한다.
+			if(!this.lazyComponents) return;
+		}
+	}
+	
+	return this._updateRealComps(dataKey, queryData, false);
+};
+
+//isLazyCompUpdate 값이 참이면 반대로 qryComp.isLazyUpdate 가 참인 경우 업데이트
+//즉, 그동안 업데이트 안 됐던 컴포넌트만 업데이트 해준다.
+QueryManager.prototype._updateRealComps = function(dataKey, queryData, isLazyCompUpdate)
+{
+	queryData.isReal = true;
+
+	//dataKey 가 동일한 컴포넌트 들은 일단 모두 updateComponent 를 호출해 줘야 한다.(updateComponent 내부 주석 참조)
+	var compArray = this.getRealComps(dataKey);
+	if(compArray)
+	{
+		var qryComp, cbObj, item, cbRet;
+		
+		for(var i=0; i<compArray.length; i++)
+		{
+			qryComp = compArray[i];
+			
+			if(this.lazyComponents)
+			{
+				//lazyComp 로 등록된 컴포넌트는 스킵,
+				//isLazyCompUpdate 값이 참이면 반대로 qryComp.isLazyUpdate 가 참인 경우 업데이트
+				if(qryComp.isLazyUpdate^isLazyCompUpdate) continue;
+			}
+			
+			//asoocool, 컴포넌트 유효성 검사
+			if(!qryComp.isValid()) continue;
+			
+			if(this.isVisibleUpdate)
+			{
+				//비활성화된 view 는 적용되지 않도록
+				// qryComp가 container인 경우에는 getRootView 함수가 없으므로 체크한다.
+				if(qryComp.getRootView)
+				{
+					item = qryComp.getRootView()._item;
+					//if(item && $(item).is(':hidden')) continue;
+					if(item && item.style.display == 'none') continue;
+				}
+			}
+			
+			if(qryComp.realCallbacks && qryComp.realCallbacks[dataKey]) 
+			{
+				cbRet = undefined;
+				
+				cbObj = qryComp.realCallbacks[dataKey];
+				
+				if(cbObj.cb) cbRet = cbObj.cb.call(this, queryData);
+				
+				if(cbRet != false) 
+				{
+					qryComp.updateComponent(queryData);
+					
+					if(cbObj.au) cbObj.au.call(this, queryData);
+				}
+			}
+			
+			else if(cbRet != false) qryComp.updateComponent(queryData);
+		}
+	}
+		
+	return compArray;
+};
+
+QueryManager.prototype.sendProcessByComp = function(acomp, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)
+{
+	var menuNo = acomp.getContainerId(),ret = [];
+
+	for(var queryName in acomp.dataKeyMap)
+		ret.push(this.sendProcess(AQuery.getQuery(queryName), menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent));
+	
+	return ret;
+};
+
+QueryManager.prototype.sendProcessByComps = function(acomps, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)
+{
+	var acomp, menuNo, queryName, ret = [];
+	for(var i=0; i<acomps.length; i++)
+	{
+		acomp = acomps[i];
+		menuNo = acomp.getContainerId();
+		
+		for(queryName in acomp.dataKeyMap)
+			ret.push(this.sendProcess(AQuery.getQuery(queryName), menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent));
+	}
+	
+	return ret;
+};
+
+QueryManager.prototype.sendProcessByName = async function(queryName, menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)
+{
+	return [this.sendProcess(await AQuery.getSafeQuery(queryName), menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)];
+};
+
+QueryManager.prototype.sendProcessByNames = async function(queryNames, menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)
+{
+	var ret = [];
+	
+	for(var i=0; i<queryNames.length; i++)
+		ret.push(this.sendProcess(await AQuery.getSafeQuery(queryNames[i]), menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent));
+
+	return ret;
+};
+
+//afterOutBlockData 값에 -1 을 셋팅하면 전송만 하고 응답 처리는 하지 않는다.
+//beforeInBlockBuffer : 데이터를 전송하기 전에 호출되는 함수(네트웍버퍼에 데이터를 셋팅하기 바로 전에 호출된다.)
+//afterOutBlockData : 데이터가 수신되면 호출되는 함수(수신된 네트웍 버퍼의 내용을 AQueryData 로 파싱한 후 호출된다.) 
+//afterUpdateComponent : 수신된 데이터(AQueryData)를 컴포넌트에 반영한 후에 호출되는 함수
+QueryManager.prototype.sendProcess = function(aquery, menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent)
+{
+	if(!aquery) return -1;
+	
+//############################################
+//	if(this.isShowProgress && afterOutBlockData != -1) AIndicator.show();
+//############################################
+
+	var trName = aquery.getName();
+
+	this.errorData.trName = trName;
+	
+	this.sendInfo.trName = trName;
+	this.sendInfo.menuNo = menuNo;
+	this.sendInfo.groupName = groupName; 
+	
+
+	var queryData = this.makeQueryData(aquery, true);
+	queryData.inBlockPrepare();
+
+	var qryComp, compArray = aquery.getQueryComps(menuNo, 'input'), i, item;
+	
+	if(compArray)
+	{
+		for(i=0; i<compArray.length; i++)
+		{
+			qryComp = compArray[i];
+			
+			if(this.isVisibleUpdate)
+			{
+				//비활성화된 탭은 적용되지 않도록
+				//비활성화된 view 는 적용되지 않도록
+				item = qryComp.getRootView()._item;
+				//if(item && $(item).is(':hidden')) continue;
+				if(item && item.style.display == 'none') continue;
+			}
+
+			//groupName 을 지정해 줬으면 같은 그룹네임인지 비교
+			if( groupName && groupName!=qryComp.getGroupName() ) continue;			
+			
+			qryComp.updateQueryData(queryData);
+		}
+	}
+	
+	var listener, qLen = this.queryListeners.length;
+
+	//전송버퍼에 데이터를 채우기 전에 호출된다.
+	//######## beforeInBlockBuffer
+	
+	//if(beforeInBlockBuffer) beforeInBlockBuffer.call(this, queryData);
+	
+	//beforeInBlockBuffer 함수에서 false 가 리턴되면 더이상 진행하지 않는다.
+	if(beforeInBlockBuffer && beforeInBlockBuffer.call(this, queryData)==false) return -1;
+	
+	for(i=0; i<qLen; i++)
+	{
+		listener = this.queryListeners[i];
+		
+		//if(listener.beforeInBlockBuffer) listener.beforeInBlockBuffer(queryData, this);
+		
+		//beforeInBlockBuffer 함수에서 false 가 리턴되면 더이상 진행하지 않는다.
+		if(listener.beforeInBlockBuffer && listener.beforeInBlockBuffer(queryData, this)==false) return -1;
+	}
+	
+	//########
+	
+//인디케이터는 이 시점부터 보여준다. 위에서 return 될 수 있으므로	
+//############################################
+	if(this.isShowProgress && afterOutBlockData != -1) AIndicator.show();
+//############################################
+	
+	
+	var packetId = 0, dataOffset = 0, sendObj = null;//json 방식의 문자열 전송 시 사용
+	
+	if(this.sndBuf)
+	{
+		dataOffset = this.getInDataOffset(aquery, queryData);
+		
+		queryData.inBlockBuffer(this.sndBuf, dataOffset);
+
+		this.sndBuf.setDataSize(this.sndBuf.getOffset());
+
+		packetId = this.makeHeader(queryData, this.sndBuf, menuNo);
+	}
+	else
+	{
+		sendObj = {};
+		
+		queryData.inBlockBuffer(sendObj);
+		
+		packetId = this.makeHeader(queryData, sendObj, menuNo);
+	}
+
+	
+	this.sendInfo.packetId = packetId;
+	
+	
+	//---------------------------------------------------------
+	
+	//데이터를 전송하기 바로 전에 호출된다.
+	//######## beforeSendBufferData
+	for(i=0; i<qLen; i++)
+	{
+		listener = this.queryListeners[i];
+		
+		if(listener.beforeSendBufferData) 
+		{
+			listener.beforeSendBufferData(this);
+		}
+	}
+	//########
+	
+	
+	//afterOutBlockData 값에 -1 을 셋팅하면 전송만 하고 응답 처리는 하지 않는다.
+	if(afterOutBlockData != -1)
+	{
+		//asoocool dblTostr
+		var cbObj = 
+		{
+			'menuNo': menuNo, 'groupName': groupName, 'func': afterOutBlockData, 'timeout': null,
+			'trName': trName, 'dblTostr': this.dblTostr,
+			'ucfunc': afterUpdateComponent	
+		};
+
+		//asoocool dblTostr
+		//cbObj 에 셋팅하고 바로 지운다.
+		this.dblTostr = undefined;
+
+		this.setQueryCallback(packetId, cbObj);
+
+		//------------------------------------------------------------
+		//	네트웍 타임아웃 셋팅
+		if(this.timeoutSec>0)
+		{
+			var thisObj = this;
+
+			cbObj.timeout = setTimeout(function()
+			{
+				if(thisObj.isShowProgress) AIndicator.hide();
+
+				//타임아웃 에러 데이터 세팅
+				thisObj.setTimeoutErrorData(trName, menuNo, groupName);
+
+				//콜백 객체 제거
+				thisObj.getQueryCallback(packetId);
+
+				//afterOutBlockData 호출하여 타임아웃 상태를 알림
+				if(afterOutBlockData) afterOutBlockData.call(thisObj, null);
+				//if(listener && listener.afterOutBlockData) listener.afterOutBlockData(null, groupName, thisObj.errorData.trName, thisObj);
+
+				qLen = thisObj.queryListeners.length;
+				for(i=0; i<qLen; i++)
+				{
+					listener = thisObj.queryListeners[i];
+
+					if(listener.afterRecvBufferData) listener.afterRecvBufferData(thisObj);
+					if(listener.afterOutBlockData) listener.afterOutBlockData(null, thisObj);
+				}
+
+
+			}, this.timeoutSec*1000);
+		}
+	}
+	
+	//---------------------------------------------------------
+	// 송신할 전문 로그 남기는 함수
+	this.send_log_helper();
+	//---------------------------------------------------------
+	
+	this.sendByType({
+		packetId: packetId,
+		menuNo: menuNo,
+		trName: trName,
+		groupName: groupName,
+		queryData: queryData,
+		sndBuf: this.sndBuf,
+		sendObj: sendObj
+	});
+
+	return packetId;
+};
+
+//if buf is array, type of array is Uint8Array, String, ABuffer
+QueryManager.prototype.sendBufferData = function(buf)
+{
+	var thisObj = this;
+	if(!this.netIo.isStart())
+	{
+		//console.log('----------------------- sendBufferData fail! : socket is closed.');
+		
+		if(this.isShowProgress) AIndicator.hide();
+		return;
+	}
+	
+	//if(buf instanceof ABuffer) buf = buf.subDataArray();
+	
+	this.netIo.sendData(buf, function(result)
+	{
+		if(!result) 
+		{
+			thisObj.onSendFail();
+		}
+	});
+};
+
+
+/*
+QueryManager.prototype.sendBufferData = function(abuf)
+{
+	var thisObj = this;
+	if(!this.netIo.isStart())
+	{
+		//console.log('----------------------- sendBufferData fail! : socket is closed.');
+		
+		if(this.isShowProgress) AIndicator.hide();
+		return;
+	}
+	
+	var sendLen = abuf.getDataSize();
+	
+	this.netIo.sendData(abuf.subArray(0, sendLen), function(result)
+	{
+		if(!result) 
+		{
+			thisObj.onSendFail();
+		}
+	});
+};
+*/
+
+QueryManager.prototype.onSendFail = function()
+{
+	if(this.netIo.isStart())
+	{
+		AIndicator.endOltp();
+		
+		AToast.show('통신 상태가 원활하지 않습니다.');
+		//theApp.autoLoginProcess('통신 상태가 원활하지 않습니다.(2) : '+this.errorData.trName, true);
+	}
+
+};
+
+QueryManager.prototype.makePacketId = function()
+{
+	return ++this.packetId;
+};
+
+QueryManager.prototype.addSkipErrorCode = function(qryName, errorCode)
+{
+	var array = this.errCodeMap[qryName];
+	if(!array) array = this.errCodeMap[qryName] = [];
+	
+	for(var i=0; i<array.length; i++)
+		if(array[i]==errorCode) return;
+	
+	array.push(errorCode);
+};
+
+QueryManager.prototype.removeSkipErrorCode = function(qryName, errorCode)
+{
+	var array = this.errCodeMap[qryName];
+	if(!array) return;
+	
+	for(var i=0; i<array.length; i++)
+	{
+		if(array[i]==errorCode)
+		{
+			array.splice(i, 1);
+			if(array.length==0) delete this.errCodeMap[qryName];
+			
+			return;
+		}
+	}
+};
+
+QueryManager.prototype.isSkipErrorCode = function(qryName, errorCode)
+{
+	var array = this.errCodeMap[qryName];
+	if(!array) return false;
+	
+	for(var i=0; i<array.length; i++)
+	{
+		if(array[i]==errorCode)
+			return true;
+	}
+	
+	return false;
+};
+
+// 송신할 전문 로그 남기는 함수
+QueryManager.prototype.send_log_helper = function()
+{
+};
+
+
+// 수신된 전문 로그 남기는 함수
+QueryManager.prototype.recv_log_helper = function()
+{
+};
+
+// option = { realQuery:'', keyBlock:'InBlock1', realField:'', updateType: 0 }
+//beforeInBlockBuffer : 데이터를 전송하기 전에 호출되는 함수(네트웍버퍼에 데이터를 셋팅하기 바로 전에 호출된다.)
+//afterOutBlockData : 데이터가 수신되면 호출되는 함수(수신된 네트웍 버퍼의 내용을 AQueryData 로 파싱한 후 호출된다.) 
+//afterUpdateComponent : 수신된 데이터(AQueryData)를 컴포넌트에 반영한 후에 호출되는 함수
+//realCallback : 리얼 데이터가 수신되면 호출되는 함수
+//realAfterUpdate : 수신된 리얼 데이터를 컴포넌트에 반영한 후에 호출되는 함수
+QueryManager.prototype.sendProcessWithReal = function(queryName, menuNo, groupName, beforeInBlockBuffer, afterOutBlockData, afterUpdateComponent, option, realCallback, realAfterUpdate)
+{
+	var dataKeyArr = [];
+	
+	if(!option.keyBlock) option.keyBlock = 'InBlock1';
+
+	return this.sendProcessByName(queryName, menuNo, groupName, 
+	
+	function(queryData)
+	{
+		beforeInBlockBuffer.call(this, queryData);
+		
+		//if(option.keyBlock.charCodeAt(0)==0x49)	//I
+		if(option.keyBlock.indexOf('InBlock')>-1)
+		{
+			var blockData = queryData.getBlockData(option.keyBlock);
+			
+			for(var i=0; i<blockData.length; i++)
+				dataKeyArr.push(blockData[i][option.realField]);
+		}
+	},
+	
+	function(queryData)
+	{
+		if(queryData)
+		{
+			//if(option.keyBlock.charCodeAt(0)==0x4F)	//O
+			if(option.keyBlock.indexOf('OutBlock')>-1)
+			{
+				var blockData = queryData.getBlockData(option.keyBlock);
+
+				for(var i=0; i<blockData.length; i++)
+					dataKeyArr.push(blockData[i][option.realField]);
+			}
+
+			if(typeof option.realQuery == 'string') option.realQuery = [option.realQuery];
+			for(var i=0; i<option.realQuery.length; i++)
+			{
+				this.realProcMap[menuNo + queryName + option.realQuery[i]] = dataKeyArr;
+				this.registerReal(option.realQuery[i], option.realField, dataKeyArr, menuNo, option.updateType, realCallback, realAfterUpdate);
+			}
+		}
+		
+		afterOutBlockData.call(this, queryData);
+	},
+	afterUpdateComponent);
+
+};
+
+QueryManager.prototype.clearRealProcess = function(queryName, menuNo, realQuery)
+{
+	if(typeof realQuery == 'string') realQuery = [realQuery];
+
+	var key, dataKeyArr;
+	for(var i=0; i<realQuery.length; i++)
+	{
+		key = menuNo + queryName + realQuery[i];
+		dataKeyArr = this.realProcMap[key];
+		
+		if(dataKeyArr) delete this.realProcMap[key];
+		else dataKeyArr = [];
+		
+		this.unregisterReal(realQuery[i], dataKeyArr, menuNo);
+	}
+};
+
+
+
+NetworkIO = class NetworkIO
+{
+    constructor(listener)
+    {
+        this.listener = listener;
+        this.retryCount = 0;
+        this.retryTime = 0;
+        this.curCount = 0;
+        this.selfClose = false;
+    }
+}
+
+//리스너 이벤트 함수
+//void onConnected(success);
+//void onClosed();
+//void onReceived(strData);
+
+NetworkIO.RETRY_CHECK_TIME = 3000;
+NetworkIO.FULL_RETRY_TIME = 1000*15;
+
+NetworkIO.prototype.isStart = function()
+{
+	return false;
+};
+
+
+NetworkIO.prototype.setIoListener = function(listener)
+{
+	this.listener = listener;
+};
+
+NetworkIO.prototype.enableRetry = function(retryCount)
+{
+	this.retryCount = retryCount;
+};
+
+NetworkIO.prototype.startIO = function(address, port)
+{
+
+};
+
+NetworkIO.prototype.stopIO = function(isClosed)
+{
+
+};
+
+NetworkIO.prototype.sendData = function(data, callback)
+{
+
+};
+
+//	if data is ArrayBuffer, use this code
+//	ex) var buf = new Uint8Array(data);
+NetworkIO.prototype.onReceived = function(data, size)
+{
+	//무언가 추가 작업(압축해제, 복호화)이 필요할 경우 이곳에서 한 후
+	//아래 함수가 호출되도록 한다.
+	
+	if(this.listener) this.listener.onReceived(data, size);
+};
+
+NetworkIO.prototype.onClosed = function()
+{
+	//console.log('onClosed');
+	
+	if(this.listener) this.listener.onClosed();
+};
+
+NetworkIO.prototype.onConnected = function(success)
+{
+	//console.log('onConnected : ' + success);
+	
+	if(this.listener) this.listener.onConnected(success);
+};
+
+NetworkIO.prototype._onConnected = function(success)
+{
+	if(success)
+	{
+		this.curCount = 0;
+		this.onConnected(true);
+	}
+	else
+	{
+		//최초 재시도인 경우, 시작 시간 체크
+		if(this.curCount==0) this.retryTime = new Date().getTime();
+		
+		if(++this.curCount >= this.retryCount)
+		{
+			this.curCount = 0;
+			this.onConnected(false);
+			this.stopIO(true);
+		}	
+		//재접속 시도
+		else
+		{
+			//max wait time is 15 sec
+			if( (new Date().getTime() - this.retryTime) > NetworkIO.FULL_RETRY_TIME )
+			{
+				this.curCount = 0;
+				this.onConnected(false);
+				this.stopIO(true);
+				return;
+			}
+			
+			
+			var thisObj = this;
+			setTimeout(function()
+			{
+				thisObj.stopIO(true);
+				thisObj.startIO(thisObj.address, thisObj.port);
+				
+			}, NetworkIO.RETRY_CHECK_TIME);
+		}
+	}
+};
+
+
+/**
+ * @author asoocool
+ */
+
+HttpIO = class HttpIO extends NetworkIO
+{
+    constructor(listener)
+    {
+        super(listener)
+
+        this.url = null; //"http://10.16.103.45:8088/webt/webtexecuter.jsp";
+    }
+		
+	
+}
+
+HttpIO.prototype.isStart = function()
+{
+	return (this.url!=null);
+};
+
+HttpIO.prototype.startIO = function(url)
+{
+	this.url = url;
+};
+
+HttpIO.prototype.stopIO = function()
+{
+	this.url = null;
+};
+
+HttpIO.prototype.sendData = function(data, callback)
+{
+	if(typeof(data)=='string') this.sendString(data, callback);
+	else
+	{
+		// 전송할 사이즈가 버퍼 사이즈보다 큰 경우 알림창처리
+		var buf = this.listener.sndBuf;
+		if(data.length > buf.getBufSize())
+		{
+			var wnd = new AMessageBox();
+			wnd.openBox(null, '[오류] 전송할 데이터가 버퍼 사이즈보다 큽니다. 버퍼 사이즈를 변경해 주세요.');
+			wnd.setTitleText('전송오류');
+			return;	// 사이즈가 큰 경우 전송을 하지 않으려면 주석 해제
+		}
+
+		this.sendBinary(data, callback);
+	
+	}
+};
+
+HttpIO.prototype.sendBinary = function(data, callback)
+{
+	var thisObj = this,
+		xhr = new XMLHttpRequest();
+		
+	xhr.open('POST', this.url);
+	xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+	xhr.responseType = "arraybuffer";
+	
+	xhr.onload = function(e)
+	{
+		if(this.readyState == 4)
+		{
+			if(this.status == 200)
+			{
+				thisObj.onReceived(this.response, this.response.byteLength);
+			}
+			else
+			{
+				console.log('An error occured: ' + xhr.status + ' ' + xhr.statusText);
+				//if(thisObj.listener) thisObj.listener.onSendFail();
+				if(callback) callback(false);
+			}
+		}
+		
+	};
+	xhr.onerror = function(e)
+	{
+		console.log('An error occured: ' + xhr.status + ' ' + xhr.statusText);
+		//if(thisObj.listener) thisObj.listener.onSendFail();
+		if(callback) callback(false);
+	};
+	
+	xhr.send(data);
+
+};
+
+HttpIO.prototype.sendString = function(data, callback)
+{
+	var thisObj = this;
+	var packetId = this.listener.sendInfo.packetId;
+	
+	$.ajax(
+	{
+		type:'POST',
+		dataType: "text",
+	  	url: this.url,
+		data: { 'data': data },
+		success: function(result) 
+		{
+			thisObj.listener.packetInfo.packetId = packetId;
+			thisObj.onReceived(result, result.length);
+		},
+		error: function (xhr, textStatus, errorThrown) 
+		{
+			console.log('An error occured: ' + xhr.status + ' ' + xhr.statusText);
+			if(callback) callback(false);
+		}
+	});
+};
+
+
+
+WebQueryData = class WebQueryData extends AQueryData
+{
+    constructor(aquery)
+    {
+        super(aquery)
+		
+	
+		
+	
+	
+
+    }
+}
+
+
+
+WebQueryData.prototype.inBlockBuffer = function(sendObj)
+{
+	sendObj.body = this.getQueryObj();
+};
+
+
+WebQueryData.prototype.outBlockData = function(recvObj)
+{
+	this.setQueryObj(recvObj.body);
+	
+};
+
+
+
+WebQueryManager = class WebQueryManager extends QueryManager
+{
+    constructor()
+    {
+        super()
+		
+	
+		
+	
+	
+
+    }
+}
+
+
+
+WebQueryManager.prototype.onReceived = function(data, size)
+{
+	var recvObj = JSON.parse(data);
+	
+	this.packetInfo.packetId = recvObj.header.packet_id;
+
+	this.queryProcess(recvObj);
+
+	//console.log(data);
+};
+
+//사용할 AQueryData(또는 상속받은 클래스) 객체를 생성하여 리턴한다.
+WebQueryManager.prototype.makeQueryData = function(aquery, isSend)
+{
+	return new WebQueryData(aquery);
+};
+
+WebQueryManager.prototype.makeHeader = function(queryData, sendObj, menuNo)
+{
+	var packetId = this.makePacketId();
+	var qryName = queryData.getQueryName();
+
+	sendObj.header = 
+	{
+		'packet_id' : packetId,
+		'query_name' : qryName
+	};
+	
+	return packetId;
+};
+
+//에러세팅
+WebQueryManager.prototype.setErrorData = function(recvObj)
+{
+	this.errorData.errCode = recvObj.header.error_code;
+	this.errorData.errMsg = recvObj.header.error_msg;
+};
+
 afc.scriptMap["Framework/afc/library/jquery-core.js"] = true;
 afc.scriptMap["Framework/afc/library/jquery-ui.js"] = true;
 afc.scriptMap["Framework/afc/library/jquery.ui.touch-punch.js"] = true;
@@ -28800,6 +32792,8 @@ afc.scriptMap["Framework/afc/component/AComponent.js"] = true;
 afc.scriptMap["Framework/afc/component/ALayout.js"] = true;
 afc.scriptMap["Framework/afc/component/AView.js"] = true;
 afc.scriptMap["Framework/afc/component/AFloat.js"] = true;
+afc.scriptMap["Framework/afc/component/AToast.js"] = true;
+afc.scriptMap["Framework/afc/component/AIndicator.js"] = true;
 afc.scriptMap["Framework/afc/component/AContainer.js"] = true;
 afc.scriptMap["Framework/afc/component/AWindow.js"] = true;
 afc.scriptMap["Framework/afc/component/APage.js"] = true;
@@ -28808,3 +32802,11 @@ afc.scriptMap["Framework/afc/component/AApplication.js"] = true;
 afc.scriptMap["Framework/afc/event/AEvent.js"] = true;
 afc.scriptMap["Framework/afc/event/AViewEvent.js"] = true;
 afc.scriptMap["Library/RadioBtnManager.js"] = true;
+afc.scriptMap["Library/ABuffer.js"] = true;
+afc.scriptMap["Library/AQuery.js"] = true;
+afc.scriptMap["Library/AQueryData.js"] = true;
+afc.scriptMap["Library/QueryManager.js"] = true;
+afc.scriptMap["Library/NetworkIO.js"] = true;
+afc.scriptMap["Library/HttpIO.js"] = true;
+afc.scriptMap["Library/WebQueryData.js"] = true;
+afc.scriptMap["Library/WebQueryManager.js"] = true;

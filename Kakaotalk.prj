@@ -28,6 +28,62 @@
             "action": 2,
             "relType": 4,
             "path": ""
+          },
+          {
+            "type": 5,
+            "name": "ABuffer.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "AQuery.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "AQueryData.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "QueryManager.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "NetworkIO.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "HttpIO.js",
+            "action": 2,
+            "relType": 4,
+            "path": ""
+          },
+          {
+            "type": 5,
+            "name": "WebQueryData.js",
+            "action": 9,
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 5,
+            "name": "WebQueryManager.js",
+            "action": 9,
+            "relType": 1,
+            "path": "\\"
           }
         ]
       },
@@ -92,7 +148,29 @@
       {
         "type": 1,
         "name": "Query",
-        "children": []
+        "children": [
+          {
+            "type": 8,
+            "name": "login.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
+          },
+          {
+            "type": 8,
+            "name": "test.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
+          },
+          {
+            "type": 8,
+            "name": "friendList.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
+          }
+        ]
       },
       {
         "type": 1,
@@ -367,6 +445,18 @@
             "name": "spidergen.svg",
             "relType": 1,
             "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "chat-plus.svg",
+            "relType": 1,
+            "path": "\\"
+          },
+          {
+            "type": 8,
+            "name": "open-chat.svg",
+            "relType": 1,
+            "path": "\\"
           }
         ]
       },
@@ -433,6 +523,28 @@
                   {
                     "type": 3,
                     "name": "LoginView.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "ChattingView",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "ChattingView.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "ChattingView.lay",
                     "action": 6,
                     "relType": 1,
                     "path": "Source\\",
@@ -511,6 +623,72 @@
                   {
                     "type": 3,
                     "name": "FriendListViewItem.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "MessageListViewItem",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "MessageListViewItem.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "MessageListViewItem.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "ChattingListViewItem_Author",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "ChattingListViewItem_Author.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "ChattingListViewItem_Author.lay",
+                    "action": 6,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  }
+                ]
+              },
+              {
+                "type": 1,
+                "name": "ChattingListViewItem_Other",
+                "children": [
+                  {
+                    "type": 5,
+                    "name": "ChattingListViewItem_Other.js",
+                    "action": 9,
+                    "relType": 1,
+                    "path": "Source\\",
+                    "comment": ""
+                  },
+                  {
+                    "type": 3,
+                    "name": "ChattingListViewItem_Other.lay",
                     "action": 6,
                     "relType": 1,
                     "path": "Source\\",

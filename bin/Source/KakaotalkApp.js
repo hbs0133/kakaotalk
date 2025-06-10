@@ -7,6 +7,10 @@ KakaotalkApp = class KakaotalkApp extends AApplication
 
 		//TODO:edit here
 
+        this.serverUrl = 'http://127.0.0.1:3000/users/';
+
+        this.qm = null;
+
 	}
 
 	onReady()
@@ -20,6 +24,8 @@ KakaotalkApp = class KakaotalkApp extends AApplication
 
         navigator.goPage('MainTabView')
 
+        this.connectServer();
+
 	}
 
 	unitTest(unitUrl)
@@ -30,6 +36,16 @@ KakaotalkApp = class KakaotalkApp extends AApplication
 
 		super.unitTest(unitUrl)
 	}
+
+    connectServer()
+    {
+        this.qm = new WebQueryManager();
+
+        let nio = new HttpIO(this.qm);
+        this.qm.setNetworkIo(nio);
+
+        this.qm.startManager(this.serverUrl);
+    }
 
 }
 

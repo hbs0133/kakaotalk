@@ -37,7 +37,7 @@ FriendListViewItem = class FriendListViewItem extends AView
         const {profileImg, name, profileMessage} = data;
 
         this.profileImg.setImage(profileImg);
-        this.name.setText(name);
+        // this.name.setText(name);
         this.profileMessage.setText(profileMessage)
 
         //프로필 메시지 있을때만

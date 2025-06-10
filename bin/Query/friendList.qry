@@ -1,0 +1,19 @@
+{
+	"name": "friendList",
+	"desc": "쿼리 설명",
+	"queryType": "쿼리 타입",
+	"input": {
+		"InBlock1": {
+			"format": []
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+				["프로필이미지","profileImg","","","char",10,4],
+				["이름","name","","","char",10,4],
+				["프로필메시지","profileMessage","","","char",10,4]
+			]
+		}
+	}
+}

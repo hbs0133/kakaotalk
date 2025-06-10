@@ -1,0 +1,20 @@
+{
+	"name": "login",
+	"desc": "로그인",
+	"queryType": ",JSON",
+	"input": {
+		"InBlock1": {
+			"format": [
+				["ID","id","","","char",10,4],
+				["PW","pw","","","char",10,4]
+			]
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+				["LoginStatus","login_status","","","char",10,4]
+			]
+		}
+	}
+}

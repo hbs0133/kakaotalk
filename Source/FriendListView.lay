@@ -8,7 +8,7 @@
                 ><div style="position: relative; box-sizing: border-box;"
                     ><div data-base="AView" data-class="AView" class="AView-Style" style="width: auto; height: 100%; position: relative; top: 0px; background-color: rgba(0, 0, 0, 0); left: 0px;"
                         ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 22px; position: relative; background-image: url(&quot;Assets/zoom.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); height: 22px; margin-right: 15px; background-position: center center;" data-background-option="fit"></button
-                        ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 26px; height: 26px; position: relative; background-image: url(&quot;Assets/user-plus.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; background-color: rgba(0, 0, 0, 0);" data-background-option="fit"></button
+                        ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 26px; height: 26px; position: relative; background-image: url(&quot;Assets/user-plus.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; background-color: rgba(0, 0, 0, 0); margin-right: 15px;" data-background-option="fit"></button
                     ></div
                 ></div
             ></div

@@ -6,10 +6,10 @@
         ><div style="position: relative; box-sizing: border-box;"
             ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 300px; height: auto; align-items: stretch; position: relative; left: 0px; top: 0px; flex-direction: column; margin-left: 10px; justify-content: center;"
                 ><div style="position: relative; box-sizing: border-box;"
-                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunbd;" id="FriendListViewItem--name">이름</label
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunbd;" id="FriendListViewItem--name" data-query-name="friendList" data-mapping-type="2">name</label
                 ></div
                 ><div style="position: relative; box-sizing: border-box;"
-                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunsl; color: rgb(68, 68, 68);" id="FriendListViewItem--profileMessage">Label</label
+                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunsl; color: rgb(68, 68, 68); margin-top: 2px;" id="FriendListViewItem--profileMessage">profileMessage</label
                 ></div
             ></div
         ></div

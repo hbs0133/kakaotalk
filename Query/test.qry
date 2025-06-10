@@ -1,0 +1,19 @@
+{
+	"name": "test",
+	"desc": "쿼리 설명",
+	"queryType": "쿼리 타입",
+	"input": {
+		"InBlock1": {
+			"format": [
+				["testin","testin","","","char",10,4]
+			]
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+				["testout","testout","","","char",10,4]
+			]
+		}
+	}
+}

@@ -8,7 +8,6 @@ LoginView = class LoginView extends AView
         //유효성 검사를 위한 속성
 		this.isEmailValid = false;
         this.isPasswordValid = false;
-
 	}
 
 	init(context, evtListener)
@@ -41,13 +40,33 @@ LoginView = class LoginView extends AView
 
 
     //로그인 버튼 클릭
-	onLoginBtnClick(comp, info, e)
+	async onLoginBtnClick(comp, info, e)
 	{
 
-        const navigator = ANavigator.find('navi');
+        await theApp.qm.sendProcessByName('login', this.getContainerId(), null,
+        
+            (queryData)=> {
+                queryData.printQueryData();
+            },
 
-        navigator.goPage('FriendListPage')
+            (queryData) => {
+                queryData.printQueryData();
 
+                let blockData = queryData.getBlockData('OutBlock1')
+                let status = blockData[0].status
+
+
+                if(status == "pass") {
+                    const navigator = ANavigator.find('navi');
+                    AToast.show("로그인 되었습니다.")
+                    navigator.goPage('MainTabView')
+                }else if( status == "reject"){
+                    AToast.show("아이디,비밀번호를 확인해주세요")
+                    this.emailInput.setText("")
+                    this.passwordInput.setText("")
+                }
+            }  
+        )
 	}
 
 
@@ -83,5 +102,21 @@ LoginView = class LoginView extends AView
     }
 
 
+
+	onLoginqrbtnClick(comp, info, e)
+	{
+        theApp.qm.sendProcessByName('test', this.getContainerId(), null,
+        
+        (queryData)=> {
+            queryData.printQueryData();
+        },
+
+        (queryData) => {
+            queryData.printQueryData();
+        }
+        
+        )
+        
+	}
 }
 

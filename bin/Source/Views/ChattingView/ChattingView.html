@@ -1,0 +1,33 @@
+<div data-base="AView" data-class="ChattingView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(186, 206, 224); overflow: scroll;" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;AButton&quot;,&quot;AListView&quot;,&quot;ATextField&quot;]}"
+    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: auto; align-items: center; position: absolute; place-content: flex-start center; height: 20px; top: 0px; right: 0px; gap: 10px; padding-right: 8px; border-top-color: rgb(255, 0, 0); z-index: 1;" name="controls"
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 12px; height: 12px; position: relative; background-image: url(&quot;Assets/minus-solid.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); background-position: center center; left: 0px; top: 0px; cursor: pointer;" data-background-option="fit"></button
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 12px; height: 12px; position: relative; background-image: url(&quot;Assets/full-square.svg&quot;); background-repeat: no-repeat; background-size: contain; left: 0px; top: 0px; background-position: center center; background-color: rgba(0, 0, 0, 0); cursor: pointer;" data-background-option="fit" name="full-btn"></button
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 12px; height: 12px; position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/x-mark-838383.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; background-color: rgba(0, 0, 0, 0); cursor: pointer;" data-background-option="fit" name="x-btn" data-listener-click="ChattingView:onXbtnClick"></button
+        ></div
+    ></div
+    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: stretch; left: 0px; top: 0px; position: relative; flex-direction: column; overflow: visible;" name="container"
+        ><div style="position: relative; box-sizing: border-box;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 80px; align-items: stretch; position: fixed; left: 0px; top: 20px; background-color: rgb(244, 85, 30); margin-top: 20px; z-index: 1;" name="header"></div
+        ></div
+        ><div style="position: relative; box-sizing: border-box; flex-grow: 1;"
+            ><div data-base="AListView" data-class="AListView" class="AListView-Style" data-selectable="true" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); overflow: visible; margin-top: 100px;" id="ChattingView--chattingList"
+                ><div class="listview-row" style="height: 60px;"></div
+                ><div class="listview-row AListView-select" style="height: 60px;"></div
+                ><div class="listview-row" style="height: 60px;"></div
+                ><div class="listview-row" style="height: 60px;"></div
+            ></div
+        ></div
+        ><div style="position: relative; box-sizing: border-box;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100px; align-items: stretch; position: relative; left: 0px; top: 0px; background-color: rgb(255, 255, 255); flex-direction: column;"
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><input data-base="ATextField" data-class="ATextField" type="text" value="" class="ATextField-Style" autocomplete="off" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px;" name="text-filed"
+                ></div
+            ></div
+        ></div
+    ></div
+></div>

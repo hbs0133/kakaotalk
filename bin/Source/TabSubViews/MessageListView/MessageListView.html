@@ -1,4 +1,4 @@
-<div data-base="AView" data-class="MessageListView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(255, 255, 255);" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;ALabel&quot;,&quot;AButton&quot;,&quot;AListView&quot;]}"
+<div data-base="AView" data-class="MessageListView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(255, 255, 255); overflow: scroll;" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;ALabel&quot;,&quot;AButton&quot;,&quot;AListView&quot;]}"
     ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; align-items: stretch; left: 0px; top: 0px; position: relative; flex-direction: column; overflow: visible; height: 100%;" name="container"
         ><div style="position: relative; box-sizing: border-box;"
             ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="align-items: center; position: absolute; top: 0px; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; overflow: visible; padding-left: 10px; height: 30px; left: 0px; display: flex; width: 100%;" name="header"
@@ -8,13 +8,14 @@
                 ><div style="position: relative; box-sizing: border-box;"
                     ><div data-base="AView" data-class="AView" class="AView-Style" style="width: auto; height: 100%; position: relative; top: 0px; background-color: rgba(0, 0, 0, 0); left: 0px;"
                         ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 22px; position: relative; background-image: url(&quot;Assets/zoom.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); height: 22px; margin-right: 15px; background-position: center center;" data-background-option="fit"></button
-                        ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 26px; height: 26px; position: relative; background-image: url(&quot;Assets/user-plus.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; background-color: rgba(0, 0, 0, 0);" data-background-option="fit"></button
+                        ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 26px; height: 26px; position: relative; background-image: url(&quot;Assets/open-chat.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; background-color: rgba(0, 0, 0, 0); margin-right: 15px;" data-background-option="fit"></button
+                        ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="height: 26px; left: 0px; top: 0px; position: relative; background-image: url(&quot;Assets/chat-plus.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; width: 26px; margin-right: 15px;" data-background-option="fit"></button
                     ></div
                 ></div
             ></div
         ></div
         ><div style="position: relative; box-sizing: border-box; flex-grow: 1;"
-            ><div data-base="AListView" data-class="AListView" class="AListView-Style" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); overflow: visible;" data-selectable="true" id="MessageListView--friendList"
+            ><div data-base="AListView" data-class="AListView" class="AListView-Style" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); overflow: visible; margin-top: 30px;" data-selectable="true" id="MessageListView--messageList"
                 ><div class="listview-row" style="height: 60px;"></div
                 ><div class="listview-row AListView-select" style="height: 60px;"></div
                 ><div class="listview-row" style="height: 60px;"></div
