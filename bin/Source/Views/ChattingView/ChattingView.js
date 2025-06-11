@@ -19,7 +19,7 @@ ChattingView = class ChattingView extends AView
 	async onInitDone()
 	{
 		super.onInitDone()
-
+            //기존 채팅,채팅정보 가져오기
             await theApp.qm.sendProcessByName('chatting', this.getContainerId(), null,
         
             (queryData)=> {
@@ -44,6 +44,7 @@ ChattingView = class ChattingView extends AView
                 this.chttingCount.setText(chattingCount)
 
                 this.wrapper.scrollToBottom();
+
             }  
         )
 
@@ -66,22 +67,23 @@ ChattingView = class ChattingView extends AView
 
 	}
 
+    //전송버튼클릭
 	async onSendClick(comp, info, e)
 	{
         this.sendMessage();
-        this.wrapper.scrollToBottom();
 	}
 
+    //엔터키 이벤트
 	onChattingMessageKeydown(comp, info, e)
 	{
 
          if (e.key === 'Enter') {
             this.sendMessage();
         }
-        this.wrapper.scrollToBottom();
 
 	}
 
+    // 메시지 보내기함수
     async sendMessage()
     {
         	await theApp.qm.sendProcessByName('sendMessage', this.getContainerId(), null,
@@ -98,15 +100,15 @@ ChattingView = class ChattingView extends AView
                 // this.chattingList.removeAllItems();
                 this.newMessage = await queryData.getBlockData('OutBlock1');
 
-                this.chattingList.addItem('Source/ListViewItems/ChattingListViewItem_Author/ChattingListViewItem_Author.lay', [this.newMessage])
+               await this.chattingList.addItem('Source/ListViewItems/ChattingListViewItem_Author/ChattingListViewItem_Author.lay', [this.newMessage])
 
             //     for(const item of this.newchattingMockData){
             //    item.isAuthor ?  await this.chattingList.addItem('Source/ListViewItems/ChattingListViewItem_Author/ChattingListViewItem_Author.lay', [item]):
             //    await this.chattingList.addItem('Source/ListViewItems/ChattingListViewItem_Other/ChattingListViewItem_Other.lay', [item])
             // }
 
-            this.wrapper.scrollToBottom();
             this.chattingMessage.setText("")
+            this.wrapper.scrollToBottom();
 
             }  
         )

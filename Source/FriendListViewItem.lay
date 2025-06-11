@@ -4,7 +4,7 @@
             ><img data-base="AImage" data-class="AImage" class="AImage-Style aimage-blank" style="width: 40px; height: 40px; position: relative; left: 0px; top: 0px; border-radius: 15px; margin-left: 10px;" id="FriendListViewItem--profileImg"
         ></div
         ><div style="position: relative; box-sizing: border-box;"
-            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 300px; height: auto; align-items: stretch; position: relative; left: 0px; top: 0px; flex-direction: column; margin-left: 10px; justify-content: center;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 300px; height: auto; align-items: stretch; position: relative; left: 0px; top: 0px; flex-direction: column; margin-left: 10px; justify-content: center;" name="info"
                 ><div style="position: relative; box-sizing: border-box;"
                     ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunbd;" id="FriendListViewItem--name">name</label
                 ></div

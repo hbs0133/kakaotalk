@@ -36,7 +36,7 @@ MainTabView = class MainTabView extends AView
 	}
 
 
-
+    // 탭클릭 함수
      onClickTab(comp, info, e)
 	{
         console.log(comp)

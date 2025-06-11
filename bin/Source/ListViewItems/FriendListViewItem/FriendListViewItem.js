@@ -21,6 +21,8 @@ FriendListViewItem = class FriendListViewItem extends AView
 	{
 		super.onInitDone()
 
+        //프로필 메시지 있을때만 출력
+        this.profileMessage.getText() == "" ? this.profileMessage.setStyle("display", "none") : null
 	}
 
 	onActiveDone(isFirst)
@@ -33,16 +35,16 @@ FriendListViewItem = class FriendListViewItem extends AView
 
     setData(data)
     {
-        const {profileImg, name, profileMessage} = data;
+        // const {profileImg, name, profileMessage} = data;
 
         // this.profileImg.setImage(profileImg);
         // this.name.setText(name);
         // this.profileMessage.setText(profileMessage)
 
         //프로필 메시지 있을때만
-        if(profileMessage == ""){
-            this.profileMessage.setStyle("display", "none")
-        }
+        // if(profileMessage == ""){
+        //     this.profileMessage.setStyle("display", "none")
+        // }
     }
 
 
