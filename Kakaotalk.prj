@@ -169,6 +169,27 @@
             "relType": 1,
             "path": "Query\\",
             "comment": ""
+          },
+          {
+            "type": 8,
+            "name": "messageList.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
+          },
+          {
+            "type": 8,
+            "name": "chatting.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
+          },
+          {
+            "type": 8,
+            "name": "sendMessage.qry",
+            "relType": 1,
+            "path": "Query\\",
+            "comment": ""
           }
         ]
       },

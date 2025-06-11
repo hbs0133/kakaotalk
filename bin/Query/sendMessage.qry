@@ -1,0 +1,21 @@
+{
+	"name": "sendMessage",
+	"desc": "메시지보내기",
+	"queryType": "쿼리 타입",
+	"input": {
+		"InBlock1": {
+			"format": [
+				["메시지","message","","","char",10,4],
+				["보낸시간","sentAt","","","char",10,4],
+				["작성자여부","isAuthor","","","binary",10,4]
+			]
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+
+			]
+		}
+	}
+}

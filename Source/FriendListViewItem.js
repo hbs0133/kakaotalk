@@ -17,10 +17,9 @@ FriendListViewItem = class FriendListViewItem extends AView
 
 	}
 
-	onInitDone()
+	async onInitDone()
 	{
 		super.onInitDone()
-
 
 	}
 
@@ -36,9 +35,9 @@ FriendListViewItem = class FriendListViewItem extends AView
     {
         const {profileImg, name, profileMessage} = data;
 
-        this.profileImg.setImage(profileImg);
+        // this.profileImg.setImage(profileImg);
         // this.name.setText(name);
-        this.profileMessage.setText(profileMessage)
+        // this.profileMessage.setText(profileMessage)
 
         //프로필 메시지 있을때만
         if(profileMessage == ""){

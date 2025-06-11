@@ -1,0 +1,21 @@
+{
+	"name": "messageList",
+	"desc": "메시지 리스트",
+	"queryType": "쿼리 타입",
+	"input": {
+		"InBlock1": {
+			"format": []
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+				["메시지이미지","messageImg","","","char",10,4],
+				["이름","name","","","char",10,4],
+				["최근메시지","resentMessage","","","char",10,4],
+				["최근메시지보낸시간","resentMessageSentAt","","","char",10,4],
+				["알림갯수","notificationCount","","","char",10,4]                                
+			]
+		}
+	}
+}

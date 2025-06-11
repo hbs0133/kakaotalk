@@ -1,0 +1,28 @@
+{
+	"name": "chatting",
+	"desc": "쿼리 설명",
+	"queryType": "쿼리 타입",
+	"input": {
+		"InBlock1": {
+			"format": []
+		}
+	},
+	"output": {
+		"OutBlock1": {
+			"format": [
+				["채팅프로필이미지","profileImg","","","char",10,4],
+				["이름","name","","","char",10,4],
+				["메시지","message","","","char",10,4],
+				["보낸시간","sentAt","","","char",10,4],
+				["작성자여부","isAuthor","","","binary",10,4]
+			]
+		},
+		"OutBlock2": {
+			"format": [
+                	["채팅방이미지","chattingImg","","","char",10,4],
+                    ["채팅상대이름","chattingName","","","char",10,4],
+                    ["채팅방인원","chattindCount","","","char",10,4]
+            ]
+		}
+	}
+}

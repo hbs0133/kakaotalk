@@ -23,6 +23,7 @@ MessageListViewItem = class MessageListViewItem extends AView
 
 		//TODO:edit here
 
+        this.notificationCount.getText() == 0 ? this.notificationCount.setStyle("opacity","0") : null ;
 	}
 
 	onActiveDone(isFirst)
@@ -55,16 +56,16 @@ MessageListViewItem = class MessageListViewItem extends AView
         const {messageImg, name, resentMessage , resentMessageSentAt , notificationCount  } = data;
         const fommattedTime = this.formatToKoreanTime(resentMessageSentAt)
 
-        this.messageImg.setImage(messageImg);
-        this.name.setText(name);
+        // // this.messageImg.setImage(messageImg);
+        // // this.name.setText(name);
         this.resentMessage.setText(resentMessage);
         this.resentMessageSentAt.setText(fommattedTime);
-        this.notificationCount.setText(notificationCount);
+        // // this.notificationCount.setText(notificationCount);
 
 
-        if(notificationCount == 0){
-            this.notificationCount.setStyle("opacity","0")
-        }
+        // if(notificationCount == 0){
+        //     this.notificationCount.setStyle("opacity","0")
+        // }
 
     }
 

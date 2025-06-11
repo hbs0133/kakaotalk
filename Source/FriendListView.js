@@ -44,11 +44,9 @@ FriendListView = class FriendListView extends AView
         await theApp.qm.sendProcessByName('friendList', this.getContainerId(), null,
         
             (queryData)=> {
-                queryData.printQueryData();
             },
 
             (queryData) => {
-                queryData.printQueryData();
 
                 this.friendListMockData = queryData.getBlockData('OutBlock1')
                 this.friendList.addItem('Source/ListViewItems/FriendListViewItem/FriendListViewItem.lay', this.friendListMockData)

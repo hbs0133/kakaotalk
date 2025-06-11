@@ -1,5 +1,5 @@
-<div data-base="AView" data-class="ChattingView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(186, 206, 224); overflow: scroll;" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;AButton&quot;,&quot;AListView&quot;,&quot;ATextField&quot;]}"
-    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: auto; align-items: center; position: absolute; place-content: flex-start center; height: 20px; top: 0px; right: 0px; gap: 10px; padding-right: 8px; border-top-color: rgb(255, 0, 0); z-index: 1;" name="controls"
+<div data-base="AView" data-class="ChattingView" class="AView-Style" style="left: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(186, 206, 224); overflow: scroll; z-index: 0; backface-visibility: hidden; padding-left: 20px; padding-right: 20px;" data-class-map="{&quot;afc&quot;:[&quot;AView&quot;,&quot;AFlexLayout&quot;,&quot;AButton&quot;,&quot;AImage&quot;,&quot;ALabel&quot;,&quot;AListView&quot;,&quot;ATextArea&quot;]}" data-browser-width="460" data-browser-height="891" id="ChattingView--wrapper"
+    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; align-items: center; position: fixed; place-content: flex-start flex-end; height: 20px; top: 0px; gap: 10px; border-top-color: rgb(255, 0, 0); z-index: 1; left: 0px; padding-right: 20px; background-color: rgb(186, 206, 224);" name="controls"
         ><div style="position: relative; box-sizing: border-box;"
             ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="width: 12px; height: 12px; position: relative; background-image: url(&quot;Assets/minus-solid.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); background-position: center center; left: 0px; top: 0px; cursor: pointer;" data-background-option="fit"></button
         ></div
@@ -12,20 +12,64 @@
     ></div
     ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: stretch; left: 0px; top: 0px; position: relative; flex-direction: column; overflow: visible;" name="container"
         ><div style="position: relative; box-sizing: border-box;"
-            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 80px; align-items: stretch; position: fixed; left: 0px; top: 20px; background-color: rgb(244, 85, 30); margin-top: 20px; z-index: 1;" name="header"></div
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 70px; align-items: center; position: fixed; left: 0px; top: 20px; background-color: rgb(186, 206, 224); z-index: 1; justify-content: space-between; padding-right: 20px; padding-left: 20px;" name="header"
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: center; position: relative; left: 0px; top: 0px;"
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><img data-base="AImage" data-class="AImage" class="AImage-Style aimage-blank" style="width: 40px; height: 40px; position: relative; left: 0px; top: 0px; border-radius: 15px;" id="ChattingView--chattingImg" name="chattingImg"
+                        ></div
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: stretch; position: relative; left: 0px; top: 0px; flex-direction: column; margin-left: 10px;"
+                                ><div style="position: relative; box-sizing: border-box;"
+                                    ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgun; font-size: 16px;" id="ChattingView--chattingName" name="chattingName" data-blocks-chatting="OutBlock2,chattingName" data-query-name="chatting">chattingName</label
+                                ></div
+                                ><div style="position: relative; box-sizing: border-box;"
+                                    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: center; position: relative; left: 0px; top: 0px; margin-top: 3px;"
+                                        ><div style="position: relative; box-sizing: border-box; align-self: flex-end;"
+                                            ><img data-base="AImage" data-class="AImage" class="AImage-Style aimage-blank" style="position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/user-solid-over.svg&quot;); background-repeat: no-repeat; background-size: contain; background-position: center center; height: 12px; width: 12px;" data-background-option="fit"
+                                        ></div
+                                        ><div style="position: relative; box-sizing: border-box;"
+                                            ><label data-base="ALabel" data-class="ALabel" class="ALabel-Style" style="width: auto; height: auto; position: relative; left: 0px; top: 0px; font-family: malgunsl; margin-bottom: 3px; margin-left: 2px;" name="chttingCount" id="ChattingView--chttingCount">chttingCount</label
+                                        ></div
+                                    ></div
+                                ></div
+                            ></div
+                        ></div
+                    ></div
+                ></div
+                ><div style="position: relative; box-sizing: border-box;"
+                    ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100%; align-items: stretch; position: relative; left: 0px; top: 0px; gap: 10px;"
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/open-chat.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); width: 24px; height: 22px;" data-background-option="fit"></button
+                        ></div
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/open-chat.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); width: 24px; height: 22px;" data-background-option="fit"></button
+                        ></div
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/open-chat.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); width: 24px; height: 22px;" data-background-option="fit"></button
+                        ></div
+                        ><div style="position: relative; box-sizing: border-box;"
+                            ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="position: relative; left: 0px; top: 0px; background-image: url(&quot;Assets/open-chat.svg&quot;); background-repeat: no-repeat; background-size: contain; background-color: rgba(0, 0, 0, 0); width: 24px; height: 22px;" data-background-option="fit"></button
+                        ></div
+                    ></div
+                ></div
+            ></div
         ></div
         ><div style="position: relative; box-sizing: border-box; flex-grow: 1;"
-            ><div data-base="AListView" data-class="AListView" class="AListView-Style" data-selectable="true" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); overflow: visible; margin-top: 100px;" id="ChattingView--chattingList"
-                ><div class="listview-row" style="height: 60px;"></div
-                ><div class="listview-row AListView-select" style="height: 60px;"></div
-                ><div class="listview-row" style="height: 60px;"></div
-                ><div class="listview-row" style="height: 60px;"></div
+            ><div data-base="AListView" data-class="AListView" class="AListView-Style" data-selectable="true" style="width: 100%; position: relative; left: 0px; top: 0px; background-color: rgba(0, 0, 0, 0); overflow: visible; margin-top: 100px; height: 100%; padding-top: 10px; padding-bottom: 30px;" id="ChattingView--chattingList" item-gap="10px" data-blocks-chatting="OutBlock1,profileImg" data-query-name="chatting"
+                ><div class="listview-row" style="height: 10px;"></div
+                ><div class="listview-row AListView-select" style="height: 10px;"></div
+                ><div class="listview-row" style="height: 10px;"></div
+                ><div class="listview-row" style="height: 10px;"></div
             ></div
         ></div
         ><div style="position: relative; box-sizing: border-box;"
-            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 100px; align-items: stretch; position: relative; left: 0px; top: 0px; background-color: rgb(255, 255, 255); flex-direction: column;"
+            ><div data-base="AFlexLayout" data-class="AFlexLayout" class="AFlexLayout-Style" style="width: 100%; height: 130px; align-items: stretch; position: fixed; left: 0px; background-color: rgb(255, 255, 255); flex-direction: column; bottom: 0px; padding: 10px;"
+                ><div style="position: relative; box-sizing: border-box; flex-grow: 1;"
+                    ><textarea data-base="ATextArea" data-class="ATextArea" class="ATextArea-Style input-focus" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px; border-style: none;" placeholder="메시지 입력" data-style="input-focus" data-blocks-sendmessage="InBlock1,message" data-query-name="sendMessage" id="ChattingView--chattingMessage" name="chatting-message" data-listener-keydown="ChattingView:onChattingMessageKeydown"></textarea
+                ></div
                 ><div style="position: relative; box-sizing: border-box;"
-                    ><input data-base="ATextField" data-class="ATextField" type="text" value="" class="ATextField-Style" autocomplete="off" style="width: 100%; height: 100%; position: relative; left: 0px; top: 0px;" name="text-filed"
+                    ><button data-base="AButton" data-class="AButton" class="AButton-Style" style="position: relative; top: 0px; right: 0px; text-align: center; display: block; margin-left: auto; background-color: rgb(255, 235, 51); color: rgb(0, 0, 0); height: 30px; border-radius: 5px; width: 60px;" data-listener-click="ChattingView:onSendClick">전송</button
                 ></div
             ></div
         ></div
